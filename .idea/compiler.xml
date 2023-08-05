@@ -9,17 +9,40 @@
         <outputRelativeToContentRoot value="true" />
         <module name="config-server" />
         <module name="company" />
+        <module name="auth-service" />
         <module name="salary" />
         <module name="gateway" />
         <module name="discovery" />
       </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.28/a2ff5da8bcd8b1b26f36b806ced63213362c6dcc/lombok-1.18.28.jar" />
+        </processorPath>
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.28/a2ff5da8bcd8b1b26f36b806ced63213362c6dcc/lombok-1.18.28.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.1.1/aa13cb8ae0314bb67f9c75e66042a7001b5e406c/spring-boot-configuration-processor-3.1.1.jar" />
+        </processorPath>
+      </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="auth-servoce" target="17" />
+      <module name="file-storage" target="17" />
+      <module name="ru.scarlet.file-storage.main" target="17" />
+      <module name="ru.scarlet.file-storage.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="auth-service" options="-parameters" />
+      <module name="auth-servoce" options="-parameters" />
       <module name="company" options="-parameters" />
       <module name="config-server" options="-parameters" />
       <module name="discovery" options="-parameters" />
+      <module name="file-storage" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="salary" options="-parameters" />
     </option>

@@ -13,7 +13,7 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/salaries
+    url: jdbc:postgresql://localhost:5432/salaries
     username: postgres
     password: postgres
   jpa:
@@ -23,3 +23,5 @@ spring:
 application:
   config:
     company-url: http://localhost:8090/api/v1/companies
+  kafka:
+    auth-topic: auth-topic
