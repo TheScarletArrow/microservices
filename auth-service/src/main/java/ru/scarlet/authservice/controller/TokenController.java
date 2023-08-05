@@ -1,7 +1,6 @@
 package ru.scarlet.authservice.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +36,9 @@ public class TokenController {
     public ResponseEntity<Tokens> generateTokens(@RequestBody SignInRequest request, HttpServletRequest httpServletRequest) {
         boolean userExists = userService.userExists(request.getLogin());
         if (userExists) {
-            return ResponseEntity.ok(tokenService.generateTokens(request, httpServletRequest));
+            Tokens body = tokenService.generateTokens(request, httpServletRequest);
+            log.info(body.toString());
+            return ResponseEntity.ok(body);
         } else return ResponseEntity.badRequest().body(null);
     }
 }

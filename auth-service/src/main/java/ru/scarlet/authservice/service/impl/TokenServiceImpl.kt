@@ -10,13 +10,10 @@ import ru.scarlet.authservice.dto.AccessToken
 import ru.scarlet.authservice.dto.RefreshToken
 import ru.scarlet.authservice.dto.SignInRequest
 import ru.scarlet.authservice.dto.Tokens
-import ru.scarlet.authservice.repository.UserRepository
 import ru.scarlet.authservice.service.TokenService
 import ru.scarlet.authservice.service.UserService
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.util.*
-import java.util.stream.*
 
 
 @Service
@@ -33,12 +30,12 @@ class TokenServiceImpl(private val jwtConfig: JwtConfig,
 
     override fun userExists(token: String): Boolean {
         val usernameFromToken = getUsernameFromToken(token)
-        return userService.userExists(usernameFromToken);
+        return userService.userExists(usernameFromToken)
     }
 
     override fun generateTokens(request: SignInRequest, httpServletRequest: HttpServletRequest) : Tokens{
         println("generating tokens")
-        val algorithm = Algorithm.HMAC256(jwtConfig!!.secretKey.toByteArray())
+        val algorithm = Algorithm.HMAC256(jwtConfig.secretKey.toByteArray())
         val date = LocalDateTime.now()
         val plusDay1 = date.plusDays(1)
         val plusDays30 = date.plusDays(30)
@@ -57,6 +54,7 @@ class TokenServiceImpl(private val jwtConfig: JwtConfig,
         val tokens: MutableMap<String, String> = HashMap()
         tokens["access_token"] = accessToken
         tokens["refresh_token"] = refreshToken
+        println("generated $accessToken and $refreshToken")
         return Tokens(accessToken = AccessToken(accessToken), refreshToken = RefreshToken(refreshToken) )
     }
 }

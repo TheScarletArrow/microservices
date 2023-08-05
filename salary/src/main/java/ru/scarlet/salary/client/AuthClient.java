@@ -1,8 +1,16 @@
 package ru.scarlet.salary.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import ru.scarlet.salary.dto.SignInRequest;
+import ru.scarlet.salary.dto.Tokens;
 
-@FeignClient(name = "auth-service", url = "${application.config.company-url}")
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
+@FeignClient(value = "auth-service", url = "${application.config.auth-url}")
 public interface AuthClient {
+    @PostMapping(value = "tokens/generate", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
+    ResponseEntity<Tokens> getTokens(@RequestBody SignInRequest signInRequest);
 }
