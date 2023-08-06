@@ -3,6 +3,7 @@ package ru.scarlet.salary.services.impl
 import jakarta.servlet.http.HttpServletRequest
 import lombok.RequiredArgsConstructor
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 import ru.scarlet.salary.dto.SalaryIn
@@ -14,9 +15,12 @@ import ru.scarlet.salary.services.SalaryService
 
 @Service
 @RequiredArgsConstructor
-class SalaryServiceImpl(private val salaryRepository: SalaryRepository, private val kafkaTemplate: KafkaTemplate<String, Any>) : SalaryService, BasicService() {
+class SalaryServiceImpl(
+    private val salaryRepository: SalaryRepository,
+    private val kafkaTemplate: KafkaTemplate<String, Any>
+) : SalaryService, BasicService() {
     override fun getAll(httpServletRequest: HttpServletRequest): List<SalaryOut> {
-        val header: String = httpServletRequest.getHeader("username")
+        val header: String = getUsernameFromToken(httpServletRequest.getHeader(AUTHORIZATION))
         return salaryRepository.findByUsernameOrderByDateDesc(header).map(Salary::toSalaryOut)
     }
 
@@ -26,10 +30,10 @@ class SalaryServiceImpl(private val salaryRepository: SalaryRepository, private 
     @Value("\${application.kafka.auth-topic}")
     private lateinit var topic: String
     override fun createSalary(salary: SalaryIn, request: HttpServletRequest): SalaryOut {
-        val header: String = request.getHeader("username")
+        val header: String = getUsernameFromToken(request.getHeader(AUTHORIZATION))
 
         val salaryEntity = salary.toSalary()
-        salaryEntity.username=header
+        salaryEntity.username = header
         val salarySaved: Salary = salaryRepository.save(salaryEntity)
         return salarySaved.toSalaryOut()
     }

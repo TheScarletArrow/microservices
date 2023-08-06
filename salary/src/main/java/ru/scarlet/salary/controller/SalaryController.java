@@ -1,6 +1,5 @@
 package ru.scarlet.salary.controller;
 
-import com.google.common.collect.Lists;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +19,7 @@ public class SalaryController {
 
 	private final SalaryService salaryService;
 
-	@GetMapping
-	public ResponseEntity<?> getSalary(){
-		return new ResponseEntity<>(salaryService.getSalary(), HttpStatus.OK);
-	}
+
 
 	@PostMapping("/")
 	public ResponseEntity<SalaryOut> createSalary(HttpServletRequest request, @RequestBody SalaryIn salary){
@@ -41,7 +37,7 @@ public class SalaryController {
 
 
 
-	@GetMapping("/all")
+	@GetMapping("/")
 	public ResponseEntity<List<SalaryOut>> getAll(HttpServletRequest httpServletRequest){
 		return ResponseEntity.ok(salaryService.getAll(httpServletRequest));
 	}
