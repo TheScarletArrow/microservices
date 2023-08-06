@@ -32,11 +32,14 @@ public class SalaryController {
 
 	@PostMapping("/report")
 	public ResponseEntity<byte[]> toExcel(HttpServletRequest request, @RequestParam String fileName) {
+		// в новый сервис
 		byte[] report = salaryService.writeToExcel(request, fileName);
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"$fileName\"")
 				.body(report);
 	}
+
+
 
 	@GetMapping("/all")
 	public ResponseEntity<List<SalaryOut>> getAll(HttpServletRequest httpServletRequest){
