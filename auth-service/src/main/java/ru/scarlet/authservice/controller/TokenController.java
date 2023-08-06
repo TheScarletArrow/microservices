@@ -24,7 +24,7 @@ public class TokenController {
     private final TokenService tokenService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    @GetMapping
+    @GetMapping("/user")
     public ResponseEntity<UsernameFromToken> getUsernameFromToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization").replace("Bearer ", "");
         log.info(token);

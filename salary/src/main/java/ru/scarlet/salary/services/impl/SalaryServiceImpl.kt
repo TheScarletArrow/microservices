@@ -9,11 +9,12 @@ import ru.scarlet.salary.dto.SalaryIn
 import ru.scarlet.salary.dto.SalaryOut
 import ru.scarlet.salary.entities.Salary
 import ru.scarlet.salary.repository.SalaryRepository
+import ru.scarlet.salary.services.BasicService
 import ru.scarlet.salary.services.SalaryService
 
 @Service
 @RequiredArgsConstructor
-class SalaryServiceImpl(private val salaryRepository: SalaryRepository, private val kafkaTemplate: KafkaTemplate<String, Any>) : SalaryService {
+class SalaryServiceImpl(private val salaryRepository: SalaryRepository, private val kafkaTemplate: KafkaTemplate<String, Any>) : SalaryService, BasicService() {
     override fun getAll(httpServletRequest: HttpServletRequest): List<SalaryOut> {
         val header: String = httpServletRequest.getHeader("username")
         return salaryRepository.findByUsernameOrderByDateDesc(header).map(Salary::toSalaryOut)

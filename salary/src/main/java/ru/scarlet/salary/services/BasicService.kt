@@ -13,4 +13,8 @@ open class BasicService {
     fun getTokens(signInRequest: SignInRequest) : Tokens? {
         return authClient.getTokens(signInRequest).body
     }
+
+    fun getUsernameFromToken(authHeader: String) : String {
+        return authClient.getUsername(authHeader)
+    }
 }
