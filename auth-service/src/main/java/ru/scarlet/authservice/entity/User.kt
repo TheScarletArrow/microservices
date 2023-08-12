@@ -1,32 +1,26 @@
-package ru.scarlet.authservice.entity;
+package ru.scarlet.authservice.entity
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.util.UUID;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+import jakarta.persistence.*
+import lombok.*
+import org.hibernate.annotations.JdbcTypeCode
+import org.hibernate.type.SqlTypes
+import java.util.*
 
 @Entity
 @Getter
 @Setter
 @Table(name = "users")
-public class User {
+@AllArgsConstructor
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Builder
+class User (
     @Id
     @Column(name = "id", nullable = false)
     @JdbcTypeCode(SqlTypes.UUID)
     @GeneratedValue(generator = "uuid")
-    private UUID id;
+     val id: UUID? = null,
+    val username: String? = null,
+    var password: String? = null
 
-    private String username;
-
-    private String password;
-
-
-
-
-}
+)
