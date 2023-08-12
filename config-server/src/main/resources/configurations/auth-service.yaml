@@ -1,0 +1,24 @@
+application:
+  jwt:
+    secretKey: secretScarletH!NtSTheR@wT0L!ghTwHeNtheD4rKD!eSsecretScarletH!NtSTheR@wT0L!ghTwHeNtheD4rKD!eSsecretScarletH!NtSTheR@wT0L!ghTwHeNtheD4rKD!eS
+    tokenPrefix: "Bearer "
+    accessTokenExpirationAfterDays: 21
+    refreshTokenExpirationAfterDays: 30
+    value: 1
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/auth
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

@@ -13,10 +13,16 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/companies
+    url: jdbc:postgresql://localhost:5432/companies
     username: postgres
     password: postgres
   jpa:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+application:
+  jwt:
+    secretKey: secretScarletH!NtSTheR@wT0L!ghTwHeNtheD4rKD!eSsecretScarletH!NtSTheR@wT0L!ghTwHeNtheD4rKD!eSsecretScarletH!NtSTheR@wT0L!ghTwHeNtheD4rKD!eS
+    tokenPrefix: 'Bearer '
+    accessTokenExpirationAfterDays: 1
+    refreshtokenExpirationAfterDays: 30
