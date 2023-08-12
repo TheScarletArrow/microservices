@@ -27,7 +27,15 @@ services:
       POSTGRES_DB: companies
     ports:
       - "5433:5432"
-
+  authdb:
+    image: postgres
+    container_name: authdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: auth
+    ports:
+      - "5434:5432"
 volumes:
   mariadb_data:
     driver: local
