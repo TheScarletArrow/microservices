@@ -12,14 +12,13 @@ spring:
     name: salary-service
 
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/salaries
-    username: postgres
-    password: postgres
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://127.0.0.1:3306/salaries?useSSL=false&useTimezone=true&serverTimezone=UTC
+    username: user
+    password: password
   jpa:
     hibernate:
       ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
 application:
   config:
     company-url: http://localhost:8090/api/v1/companies
