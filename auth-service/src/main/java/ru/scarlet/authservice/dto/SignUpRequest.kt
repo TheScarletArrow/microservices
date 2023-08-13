@@ -1,6 +1,7 @@
 package ru.scarlet.authservice.dto
 
 import ru.scarlet.authservice.entity.User
+import java.time.LocalDateTime
 import java.util.*
 
 data class SignUpRequest(
@@ -13,7 +14,13 @@ data class SignUpRequest(
 ) {
 
     fun toUser(): User {
-        val user: User = User(UUID.randomUUID(),this.username, this.password)
+        val user: User = User()
+        user.name = this.firstName
+        user.password = this.password
+        user.lastName = this.lastName
+        user.patronymic = this.patronymic
+        user.email = this.email
+        user.username = this.username
         return user
     }
 }
