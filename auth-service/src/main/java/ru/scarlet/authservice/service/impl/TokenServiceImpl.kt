@@ -20,10 +20,13 @@ import java.time.ZoneOffset
 
 @Service
 @Slf4j
-class TokenServiceImpl(private val jwtConfig: JwtConfig,
+class TokenServiceImpl(
+    private val jwtConfig: JwtConfig,
     private val userService: UserService,
-    private val redisTemplate: RedisTemplate<String, String>) : TokenService {
-    override fun getUsernameFromToken(token: String) : String {
+    private val redisTemplate: RedisTemplate<String, String>
+) : TokenService {
+
+    override fun getUsernameFromToken(token: String): String {
         val algorithm: Algorithm = Algorithm.HMAC256(jwtConfig.secretKey.toByteArray())
         val verifier = JWT.require(algorithm).build()
         val decodedJWT = verifier.verify(token)
@@ -36,9 +39,10 @@ class TokenServiceImpl(private val jwtConfig: JwtConfig,
         return userService.userExists(usernameFromToken)
     }
 
-    override fun generateTokens(request: SignInRequest, httpServletRequest: HttpServletRequest) : Tokens{
+    override fun generateTokens(request: SignInRequest, httpServletRequest: HttpServletRequest): Tokens {
         println("generating tokens")
-        val accessToken = if (redisTemplate.opsForValue()[request.username + "_ACCESS"] == null) {
+        val accessTokenFromRedis = redisTemplate.opsForValue()[request.username + "_ACCESS"]
+        val accessToken = if (accessTokenFromRedis == null) {
             val algorithm = Algorithm.HMAC256(jwtConfig.secretKey.toByteArray())
             val date = LocalDateTime.now()
             val plusDay14 = date.plusDays(jwtConfig.accessTokenExpirationAfterDays ?: 14)
@@ -55,16 +59,20 @@ class TokenServiceImpl(private val jwtConfig: JwtConfig,
 //                .withIssuer(httpServletRequest.requestURL.toString())
 //                .sign(algorithm)
 
-//            tokens["refresh_token"] = refreshToken
-//            println("generated $accessToken and $refreshToken")
-            redisTemplate.opsForValue()[request.username + "_ACCESS", accessToken1] = Duration.ofDays(jwtConfig.accessTokenExpirationAfterDays!!)
+            redisTemplate.opsForValue().set(
+                request.username + "_ACCESS",
+                accessToken1,
+                Duration.ofDays(jwtConfig.accessTokenExpirationAfterDays!!)
+            )
             accessToken1
         } else {
-             redisTemplate.opsForValue()[request.username + "_ACCESS"]
+            println("Got $accessTokenFromRedis")
+            accessTokenFromRedis
         }
         val tokens: MutableMap<String, String> = HashMap()
         tokens["access_token"] = accessToken
-        val refreshToken = if (redisTemplate.opsForValue()[request.username + "REFRESH"] == null) {
+        val refreshTokenFromRedis = redisTemplate.opsForValue()[request.username + "_REFRESH"]
+        val refreshToken = if (refreshTokenFromRedis == null) {
             val algorithm = Algorithm.HMAC256(jwtConfig.secretKey.toByteArray())
             val date = LocalDateTime.now()
             val plusDays30 = date.plusDays(jwtConfig.refreshTokenExpirationAfterDays ?: 30)
@@ -75,12 +83,17 @@ class TokenServiceImpl(private val jwtConfig: JwtConfig,
                 .withIssuer(httpServletRequest.requestURL.toString())
                 .sign(algorithm)
 
-            redisTemplate.opsForValue()[request.username + "_REFRESH", refreshToken] = Duration.ofDays(jwtConfig.refreshTokenExpirationAfterDays!!)
+            redisTemplate.opsForValue().set(
+                request.username + "_REFRESH",
+                refreshToken,
+                Duration.ofDays(jwtConfig.refreshTokenExpirationAfterDays!!)
+            )
             refreshToken
         } else {
-            redisTemplate.opsForValue()[request.username + "_REFRESH"]
+            println("Got $refreshTokenFromRedis")
+            refreshTokenFromRedis
         }
         tokens["refresh_token"] = refreshToken
-        return Tokens(accessToken = AccessToken(accessToken), refreshToken = RefreshToken(refreshToken) )
+        return Tokens(accessToken = AccessToken(accessToken), refreshToken = RefreshToken(refreshToken))
     }
 }
