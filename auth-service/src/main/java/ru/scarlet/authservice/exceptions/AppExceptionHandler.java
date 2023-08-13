@@ -11,7 +11,7 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
-public class AppExceptionHadnler {
+public class AppExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     ResponseEntity<Response> handleUserAlreadyExistsException(WebRequest request) {
