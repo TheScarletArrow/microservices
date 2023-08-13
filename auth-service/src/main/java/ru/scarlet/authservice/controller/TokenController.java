@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.scarlet.authservice.dto.SignInRequest;
 import ru.scarlet.authservice.dto.Tokens;
 import ru.scarlet.authservice.dto.UsernameFromToken;
+import ru.scarlet.authservice.exceptions.UserNotFoundException;
 import ru.scarlet.authservice.service.TokenService;
 import ru.scarlet.authservice.service.UserService;
 
@@ -36,7 +37,7 @@ public class TokenController {
             Tokens body = tokenService.generateTokens(request, httpServletRequest);
             log.info(body.toString());
             return ResponseEntity.ok(body);
-        } else return ResponseEntity.badRequest().body(null);
+        } else throw new UserNotFoundException();
     }
 
 

@@ -18,7 +18,7 @@ open class JwtConfig {
     lateinit var secretKey: String
      var tokenPrefix: String? = null
      var accessTokenExpirationAfterDays: Long? = null
-     var refreshTokenExpirationAfterDays: Int? = null
+     var refreshTokenExpirationAfterDays: Long? = null
     val authHeader: String
         get() = HttpHeaders.AUTHORIZATION
 
