@@ -16,6 +16,7 @@ import ru.scarlet.authservice.dto.SignUpRequest;
 import ru.scarlet.authservice.dto.Tokens;
 import ru.scarlet.authservice.dto.UsernameFromToken;
 import ru.scarlet.authservice.entity.User;
+import ru.scarlet.authservice.exceptions.UserAlreadyExistsException;
 import ru.scarlet.authservice.service.TokenService;
 import ru.scarlet.authservice.service.UserService;
 
@@ -50,6 +51,6 @@ public class TokenController {
         if (!userService.userExists(signUpRequest.getUsername())) {
             User user = userService.createUser(signUpRequest);
             return new ResponseEntity<>(user, HttpStatusCode.valueOf(201));
-        } else return ResponseEntity.badRequest().body("Already exists");
+        } else throw new UserAlreadyExistsException();
     }
 }
