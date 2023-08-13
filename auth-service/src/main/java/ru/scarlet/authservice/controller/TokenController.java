@@ -28,6 +28,7 @@ public class TokenController {
     private final TokenService tokenService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+
     @GetMapping("/user")
     public ResponseEntity<UsernameFromToken> getUsernameFromToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization").replace("Bearer ", "");
@@ -38,7 +39,7 @@ public class TokenController {
 
     @PostMapping("/generate")
     public ResponseEntity<Tokens> generateTokens(@RequestBody SignInRequest request, HttpServletRequest httpServletRequest) {
-        boolean userExists = userService.userExists(request.getLogin());
+        boolean userExists = userService.userExists(request.getUsername());
         if (userExists) {
             Tokens body = tokenService.generateTokens(request, httpServletRequest);
             log.info(body.toString());
@@ -46,8 +47,14 @@ public class TokenController {
         } else return ResponseEntity.badRequest().body(null);
     }
 
+    @PostMapping("/signin")
+    public ResponseEntity<User> signin(@RequestBody SignInRequest request, HttpServletRequest httpServletRequest) {
+        User user = userService.getUserByUsername(request.getUsername());
+        return ResponseEntity.ok(user);
+    }
+
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody SignUpRequest signUpRequest, HttpServletRequest httpServletRequest){
+    public ResponseEntity<?> signUp(@RequestBody SignUpRequest signUpRequest, HttpServletRequest httpServletRequest) {
         if (!userService.userExists(signUpRequest.getUsername())) {
             User user = userService.createUser(signUpRequest);
             return new ResponseEntity<>(user, HttpStatusCode.valueOf(201));

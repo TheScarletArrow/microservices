@@ -21,4 +21,13 @@ public class AppExceptionHandler {
                         400,
                         LocalDateTime.now(Clock.systemUTC())));
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    ResponseEntity<Response> handleUserNotFoundException(WebRequest request) {
+        return ResponseEntity.ok(
+                new Response("User not found",
+                        ((ServletWebRequest) request).getRequest().getRequestURI(),
+                        404,
+                        LocalDateTime.now(Clock.systemUTC())));
+    }
 }
