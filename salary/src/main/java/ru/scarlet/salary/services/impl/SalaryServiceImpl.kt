@@ -19,10 +19,7 @@ class SalaryServiceImpl(
     private val salaryRepository: SalaryRepository,
     private val kafkaTemplate: KafkaTemplate<String, Any>
 ) : SalaryService, BasicService() {
-    override fun getAll(httpServletRequest: HttpServletRequest): List<SalaryOut> {
-        val header: String = getUsernameFromToken(httpServletRequest.getHeader(AUTHORIZATION))
-        return salaryRepository.findByUsernameOrderByDateDesc(header).map(Salary::toSalaryOut)
-    }
+
 
     override val salary: List<Salary?>
         get() = salaryRepository.findAll()
@@ -42,5 +39,9 @@ class SalaryServiceImpl(
 //        var token = request.getHeader("Authorization")
 //        kafkaTemplate.send()
         return ByteArray(0)
+    }
+
+    override fun getAllByUsername(username: String): List<SalaryOut> {
+        return salaryRepository.findByUsernameOrderByDateDesc(username).map { it.toSalaryOut() }
     }
 }
