@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.scarlet.salary.client.AuthClient;
 import ru.scarlet.salary.dto.SalaryIn;
 import ru.scarlet.salary.dto.SalaryOut;
 import ru.scarlet.salary.services.SalaryService;
@@ -19,7 +20,7 @@ public class SalaryController {
 
 	private final SalaryService salaryService;
 
-
+private final AuthClient authClient;
 
 	@PostMapping("/")
 	public ResponseEntity<SalaryOut> createSalary(HttpServletRequest request, @RequestBody SalaryIn salary){
@@ -34,11 +35,9 @@ public class SalaryController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"$fileName\"")
 				.body(report);
 	}
-
-
-
 	@GetMapping("/")
-	public ResponseEntity<List<SalaryOut>> getAll(HttpServletRequest httpServletRequest){
-		return ResponseEntity.ok(salaryService.getAll(httpServletRequest));
+	public ResponseEntity<List<SalaryOut>> getAllByUsername(HttpServletRequest httpServletRequest){
+		String username = authClient.getUsername(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+		return ResponseEntity.ok(salaryService.getAllByUsername(username));
 	}
 }
