@@ -15,7 +15,7 @@ public class AppExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     ResponseEntity<Response> handleUserAlreadyExistsException(WebRequest request) {
-        return ResponseEntity.ok(
+        return ResponseEntity.badRequest().body(
                 new Response("User already exists",
                         ((ServletWebRequest) request).getRequest().getRequestURI(),
                         400,
@@ -24,7 +24,7 @@ public class AppExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     ResponseEntity<Response> handleUserNotFoundException(WebRequest request) {
-        return ResponseEntity.ok(
+        return ResponseEntity.badRequest().body(
                 new Response("User not found",
                         ((ServletWebRequest) request).getRequest().getRequestURI(),
                         404,
