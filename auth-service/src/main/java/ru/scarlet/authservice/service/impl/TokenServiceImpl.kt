@@ -58,7 +58,6 @@ class TokenServiceImpl(
 //                .withExpiresAt(plusDays30.toInstant(ZoneOffset.UTC))
 //                .withIssuer(httpServletRequest.requestURL.toString())
 //                .sign(algorithm)
-
             redisTemplate.opsForValue().set(
                 request.username + "_ACCESS",
                 accessToken1,

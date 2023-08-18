@@ -22,6 +22,14 @@ public class AppExceptionHandler {
                         LocalDateTime.now(Clock.systemUTC())));
     }
 
+    @ExceptionHandler(RoleAlreadyExistsException.class)
+    ResponseEntity<Response> handleRoleAlreadyExistsException(WebRequest request) {
+        return ResponseEntity.badRequest().body(
+                new Response("Role already exists",
+                        ((ServletWebRequest) request).getRequest().getRequestURI(),
+                        400,
+                        LocalDateTime.now(Clock.systemUTC())));
+    }
     @ExceptionHandler(UserNotFoundException.class)
     ResponseEntity<Response> handleUserNotFoundException(WebRequest request) {
         return ResponseEntity.badRequest().body(
