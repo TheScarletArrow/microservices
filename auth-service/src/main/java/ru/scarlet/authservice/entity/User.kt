@@ -14,7 +14,6 @@ import java.util.*
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
-
 class User() {
     var email: String = ""
 

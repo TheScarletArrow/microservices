@@ -21,4 +21,4 @@ spring:
         - id: auth
           uri: http://localhost:8080
           predicates:
-            - Path=/api/v1/tokens/**,/api/v1/users/**
+            - Path=/api/v1/tokens/**,/api/v1/users/**,/api/v1/roles/**
