@@ -1,5 +1,6 @@
 package ru.scarlet.authservice.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import lombok.AllArgsConstructor
 import lombok.Builder
@@ -31,5 +32,7 @@ class Role() {
         return RoleResponse(name = roleName, isActive, created)
     }
 
-
+    @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
+    val users: MutableList<User> = mutableListOf()
 }
