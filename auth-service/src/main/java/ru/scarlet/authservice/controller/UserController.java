@@ -11,6 +11,8 @@ import ru.scarlet.authservice.entity.User;
 import ru.scarlet.authservice.exceptions.UserAlreadyExistsException;
 import ru.scarlet.authservice.service.UserService;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
@@ -35,5 +37,15 @@ public class UserController {
     public ResponseEntity<User> getUserByUsername(@RequestParam String username) {
         User userByUsername = userService.getUserByUsername(username);
         return ResponseEntity.ok(userByUsername);
+    }
+
+    @PostMapping("{userId}/roles/{roleId}")
+    public User addRoleToUser(@PathVariable Integer roleId, @PathVariable UUID userId){
+        return userService.addRoleToUser(userId, roleId);
+    }
+
+    @DeleteMapping("{userId}/roles/{roleId}")
+    public User removeRoleFromUser(@PathVariable Integer roleId, @PathVariable UUID userId) {
+        return userService.removeRoleFromUser(userId, roleId);
     }
 }

@@ -22,6 +22,10 @@ class User() {
     @JdbcTypeCode(SqlTypes.UUID)
     @GeneratedValue(generator = "uuid")
     var id: UUID? = UUID.randomUUID()
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "oid")
+    var oid: Int? = null
     var username: String? = null
     var password: String? = null
 
@@ -31,5 +35,13 @@ class User() {
 
     var lastName: String = ""
     var patronymic: String? = null
+
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "users_roles",
+        joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "role_id")],
+    )
+    var roles: MutableList<Role> = mutableListOf()
 
 }

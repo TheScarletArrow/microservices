@@ -30,6 +30,15 @@ public class AppExceptionHandler {
                         400,
                         LocalDateTime.now(Clock.systemUTC())));
     }
+
+    @ExceptionHandler(UserDoesntHaveRoleException.class)
+    ResponseEntity<Response> handleUserDoesntHaveRoleException(WebRequest request) {
+        return ResponseEntity.badRequest().body(
+                new Response("User doesn't have this role",
+                        ((ServletWebRequest) request).getRequest().getRequestURI(),
+                        400,
+                        LocalDateTime.now(Clock.systemUTC())));
+    }
     @ExceptionHandler(UserNotFoundException.class)
     ResponseEntity<Response> handleUserNotFoundException(WebRequest request) {
         return ResponseEntity.badRequest().body(
