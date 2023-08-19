@@ -32,6 +32,9 @@ class Role() {
         return RoleResponse(name = roleName, isActive, created)
     }
 
+    fun toMap() : HashMap<String, Any> {
+        return hashMapOf("name" to this.roleName,  "isActive" to isActive, "created" to created.toString())
+    }
     @ManyToMany(mappedBy = "roles")
     @JsonIgnore
     val users: MutableList<User> = mutableListOf()

@@ -42,6 +42,7 @@ class TokenServiceImpl(
     override fun generateTokens(request: SignInRequest, httpServletRequest: HttpServletRequest): Tokens {
         println("generating tokens")
         val accessTokenFromRedis = redisTemplate.opsForValue()[request.username + "_ACCESS"]
+        val roles = userService.getUserByUsername(request.username).roles
         val accessToken = if (accessTokenFromRedis == null) {
             val algorithm = Algorithm.HMAC256(jwtConfig.secretKey.toByteArray())
             val date = LocalDateTime.now()
@@ -50,8 +51,7 @@ class TokenServiceImpl(
                 .withSubject(request.username)
                 .withExpiresAt(plusDay14.toInstant(ZoneOffset.UTC))
                 .withIssuer(httpServletRequest.requestURL.toString())
-//            .withClaim("roles", userByUsername.authorities.stream().map { obj: GrantedAuthority -> obj.authority }
-//                .collect(Collectors.toList()))
+            .withClaim("roles", roles.map { it.toMap() })
                 .sign(algorithm)
 //            val refreshToken = JWT.create()
 //                .withSubject(request.username)
@@ -80,6 +80,7 @@ class TokenServiceImpl(
                 .withSubject(request.username)
                 .withExpiresAt(plusDays30.toInstant(ZoneOffset.UTC))
                 .withIssuer(httpServletRequest.requestURL.toString())
+                .withClaim("roles", roles.map { it.toMap() })
                 .sign(algorithm)
 
             redisTemplate.opsForValue().set(
