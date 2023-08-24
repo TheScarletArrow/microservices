@@ -24,9 +24,11 @@ public class TokenController {
 
     @GetMapping("/user")
     public ResponseEntity<UsernameFromToken> getUsernameFromToken(HttpServletRequest request) {
+        log.info("getUsernameFromToken");
         String token = request.getHeader("Authorization").replace("Bearer ", "");
-        log.info(token);
+        log.info("token={}", token);
         String usernameFromToken = tokenService.getUsernameFromToken(token);
+        log.info("usernameFromToken={}", usernameFromToken);
         return ResponseEntity.ok(new UsernameFromToken(usernameFromToken));
     }
 

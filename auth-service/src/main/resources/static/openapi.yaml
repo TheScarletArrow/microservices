@@ -1,0 +1,63 @@
+openapi: "3.0.3"
+info:
+  title: "spring_microservices API"
+  description: "spring_microservices API"
+  version: "1.0.0"
+servers:
+  - url: "https://spring_microservices"
+paths:
+  /api/v1/roles:
+    get:
+      summary: "GET api/v1/roles"
+      operationId: "getRoles"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/RoleResponse"
+    post:
+      summary: "POST api/v1/roles"
+      operationId: "addRole"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleRequest"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Role"
+components:
+  schemas:
+    RoleResponse:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        created:
+          type: "string"
+          format: "date-time"
+    RoleRequest:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+    Role:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        roleName:
+          type: "string"
+        created:
+          type: "string"
+          format: "date-time"

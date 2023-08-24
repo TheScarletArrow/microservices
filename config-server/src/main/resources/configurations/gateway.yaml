@@ -17,7 +17,7 @@ spring:
         - id: salaries
           uri: http://localhost:8090
           predicates:
-            - Path=/api/v1/salaries/**
+            - Path=/api/v1/salary/**
         - id: auth
           uri: http://localhost:8080
           predicates:

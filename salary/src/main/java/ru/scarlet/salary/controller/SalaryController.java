@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.scarlet.salary.client.AuthClient;
+import ru.scarlet.salary.dto.MonthyAmount;
 import ru.scarlet.salary.dto.SalaryIn;
 import ru.scarlet.salary.dto.SalaryOut;
 import ru.scarlet.salary.services.SalaryService;
@@ -39,5 +40,19 @@ private final AuthClient authClient;
 	public ResponseEntity<List<SalaryOut>> getAllByUsername(HttpServletRequest httpServletRequest){
 		String username = authClient.getUsername(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
 		return ResponseEntity.ok(salaryService.getAllByUsername(username));
+	}
+
+	@GetMapping("/aggregate")
+	public ResponseEntity<?> getAllGrouped(HttpServletRequest httpServletRequest){
+		String username = authClient.getUsername(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+
+		return ResponseEntity.ok(salaryService.getGrouped(username));
+	}
+
+	@GetMapping("/sum")
+	public ResponseEntity<List<MonthyAmount>> sum(HttpServletRequest httpServletRequest){
+		String username = authClient.getUsername(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+
+		return ResponseEntity.ok(salaryService.findSum(username));
 	}
 }
