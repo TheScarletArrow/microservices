@@ -7,6 +7,7 @@ import jakarta.servlet.ServletRequest
 import jakarta.servlet.ServletResponse
 import org.slf4j.MDC
 import org.springframework.stereotype.Component
+import kotlin.random.Random
 
 const val STRING_LENGTH = 11
 
@@ -23,7 +24,7 @@ class AuthFilter : Filter {
     override fun doFilter(httpServletRequest: ServletRequest, httpServletResponse: ServletResponse, filterChain: FilterChain) {
 
         val randomString = (1..STRING_LENGTH)
-            .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
+            .map { Random.nextInt(0, charPool.size) }
             .map(charPool::get)
             .joinToString("")
 
