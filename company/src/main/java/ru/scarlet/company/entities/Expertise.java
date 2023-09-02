@@ -8,6 +8,7 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -17,12 +18,13 @@ import lombok.Setter;
 		@Index(name = "idx_expertise_id", columnList = "id")
 })
 @Data
+@RequiredArgsConstructor
 //ктн
 public class Expertise {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String name;
+	String name;
 
 }

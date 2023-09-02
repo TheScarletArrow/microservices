@@ -19,6 +19,10 @@ public class Department {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer oid;
 
+	@Column(unique = true)
+	private String shortName;
+
+	@Column(unique = true)
 	private String name;
 
 	@ManyToOne
