@@ -30,6 +30,12 @@ public class CourseController {
 		return ResponseEntity.ok().body(courseResponseList);
 	}
 
+	@PostMapping("/department/{departmentId}/{courseId}")
+	private ResponseEntity<Void> addCourseForDepartment(@PathVariable String departmentId, @PathVariable Integer courseId){
+		courseService.addCourseByDepartmentId(departmentId, courseId);
+		return ResponseEntity.noContent().build();
+	}
+
 	@PostMapping("/")
 	public ResponseEntity<CourseResponse> addCourse(@RequestBody CourseRequest courseRequest, HttpServletRequest request){
 		CourseResponse add = courseService.add(courseRequest);

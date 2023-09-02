@@ -10,5 +10,10 @@ data class FacultyResponse(
     val name: String,
     val shortName: String,
     val dean: DeanResponse
+)
+
+data class FacultyDeanGetResponse(
+    val name: String,
+    val shortName: String,
 
 )

@@ -8,4 +8,6 @@ public interface CourseService {
 	List<CourseResponse> getCoursesByDepartmentId(String departmentId);
 
 	CourseResponse add(CourseRequest courseRequest);
+
+	void addCourseByDepartmentId(String departmentId, Integer courseRequest);
 }
