@@ -5,7 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.Getter;
@@ -24,12 +26,14 @@ public class Course {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer oid;
 	private String courseCode;
-	private String courseName;
+	String courseName;
 
-	private Integer departmentId;
+	@ManyToOne
+	@JoinColumn(name = "department_oid")
+	Department department;
 
 	@ManyToMany(mappedBy = "teachingCourses")
-	private List<Professor> taughtByProfessors;
+	List<Professor> taughtByProfessors;
 
 
 }
