@@ -1,5 +1,6 @@
 package ru.scarlet.company.services.impl;
 
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import ru.scarlet.company.dtos.CourseRequest;
 import ru.scarlet.company.dtos.CourseResponse;
 import ru.scarlet.company.dtos.DepartmentDtoCourse;
 import ru.scarlet.company.entities.Course;
+import ru.scarlet.company.entities.Department;
 import ru.scarlet.company.entities.Professor;
 import ru.scarlet.company.mappers.CourseMapper;
 import ru.scarlet.company.mappers.ProfessorsMapper;
@@ -48,5 +50,15 @@ public class CourseServiceImpl implements CourseService {
 		Course save = courseRepository.save(course);
 		return new CourseResponse(courseRequest.getCourseCode(), courseRequest.getCourseName(),
 				new DepartmentDtoCourse(course.getDepartment().getShortName(), course.getDepartment().getName()), allById.stream().map(professorsMapper::toDto).collect(Collectors.toList()));
+	}
+
+	@Override
+	@Transactional
+	public void addCourseByDepartmentId(String departmentId, Integer courseId) {
+		Department department = departmentRepository.findByShortName(departmentId);
+
+		Course course = courseRepository.findById(courseId).orElseThrow(()->new RuntimeException(""));
+		department.getTeachingCorses().add(course);
+		course.setDepartment(department);
 	}
 }

@@ -1,5 +1,6 @@
 package ru.scarlet.company.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,6 +38,7 @@ public class Dean {
 			joinColumns = @JoinColumn(name = "dean_id"),
 			inverseJoinColumns = @JoinColumn(name = "course_id")
 	)
+	@JsonIgnore
 	private List<Course> teachingCourses;
 
 }
