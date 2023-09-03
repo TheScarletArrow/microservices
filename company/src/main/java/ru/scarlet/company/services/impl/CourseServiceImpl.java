@@ -11,6 +11,7 @@ import ru.scarlet.company.dtos.DepartmentDtoCourse;
 import ru.scarlet.company.entities.Course;
 import ru.scarlet.company.entities.Department;
 import ru.scarlet.company.entities.Professor;
+import ru.scarlet.company.excpetions.NotFound.CourseNotFoundException;
 import ru.scarlet.company.mappers.CourseMapper;
 import ru.scarlet.company.mappers.ProfessorsMapper;
 import ru.scarlet.company.repository.CourseRepository;
@@ -60,5 +61,11 @@ public class CourseServiceImpl implements CourseService {
 		Course course = courseRepository.findById(courseId).orElseThrow(()->new RuntimeException(""));
 		department.getTeachingCorses().add(course);
 		course.setDepartment(department);
+	}
+
+	@Override
+	public CourseResponse getCourseById(Integer courseId) {
+		Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException("Course " + courseId + " not found"));
+		return courseMapper.toDto(course);
 	}
 }

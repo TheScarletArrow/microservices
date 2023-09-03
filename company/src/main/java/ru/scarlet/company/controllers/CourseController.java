@@ -42,4 +42,10 @@ public class CourseController {
 		CourseResponse add = courseService.add(courseRequest);
 		return ResponseEntity.created(URI.create(request.getRequestURI())).body(add);
 	}
+
+	@GetMapping("/{courseId}")
+	private ResponseEntity<CourseResponse> getCourseById(@PathVariable(required = false) Integer courseId) {
+		CourseResponse response = courseService.getCourseById(courseId);
+		return ResponseEntity.ok(response);
+	}
 }
