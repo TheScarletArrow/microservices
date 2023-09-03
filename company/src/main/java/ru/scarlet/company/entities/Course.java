@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Course", indexes = {
+@Table(name = "course", indexes = {
 		@Index(name = "idx_course_oid", columnList = "oid")
 })
 @Getter

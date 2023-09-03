@@ -12,6 +12,7 @@ import ru.scarlet.company.entities.Course;
 import ru.scarlet.company.entities.Department;
 import ru.scarlet.company.entities.Professor;
 import ru.scarlet.company.excpetions.NotFound.CourseNotFoundException;
+import ru.scarlet.company.excpetions.NotFound.DeanNotFoundException;
 import ru.scarlet.company.mappers.CourseMapper;
 import ru.scarlet.company.mappers.ProfessorsMapper;
 import ru.scarlet.company.repository.CourseRepository;
@@ -45,7 +46,7 @@ public class CourseServiceImpl implements CourseService {
 		Course course = new Course();
 		course.setCourseCode(courseRequest.getCourseCode());
 		course.setCourseName(courseRequest.getCourseName());
-		course.setDepartment(departmentRepository.findById(courseRequest.getDepartmentOid()).orElseThrow(()->new RuntimeException("")));
+		course.setDepartment(departmentRepository.findById(courseRequest.getDepartmentOid()).orElseThrow(()->new DeanNotFoundException("Department not found")));
 		List<Professor> allById = professorRepository.findAllById(courseRequest.getProfessors());
 		course.setTaughtByProfessors(allById);
 		Course save = courseRepository.save(course);
@@ -58,7 +59,7 @@ public class CourseServiceImpl implements CourseService {
 	public void addCourseByDepartmentId(String departmentId, Integer courseId) {
 		Department department = departmentRepository.findByShortName(departmentId);
 
-		Course course = courseRepository.findById(courseId).orElseThrow(()->new RuntimeException(""));
+		Course course = courseRepository.findById(courseId).orElseThrow(()->new CourseNotFoundException("Course not found"));
 		department.getTeachingCorses().add(course);
 		course.setDepartment(department);
 	}

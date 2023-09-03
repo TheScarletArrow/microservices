@@ -11,8 +11,8 @@ import ru.scarlet.company.dtos.ErrorDetails;
 @RestControllerAdvice
 public class ExceptionsHandler {
 
-	@ExceptionHandler(CourseNotFoundException.class)
+	@ExceptionHandler({CourseNotFoundException.class, DeanNotFoundException.class, FacultyNotFoundException.class})
 	public ResponseEntity<ErrorDetails> handleCourseNotFoundException(HttpServletRequest request, CourseNotFoundException ex){
-		return ResponseEntity.badRequest().body(new ErrorDetails(Instant.now().toEpochMilli(), request.getRequestURI(), ex.getMessage(), 400, MDC.get("CorrId")));
+		return ResponseEntity.badRequest().body(new ErrorDetails(Instant.now().toEpochMilli(), request.getRequestURI(), ex.getMessage(), 404, MDC.get("CorrId")));
 	}
 }

@@ -6,6 +6,7 @@ import ru.scarlet.company.dtos.DeanResponse;
 import ru.scarlet.company.dtos.FacultyRequest;
 import ru.scarlet.company.dtos.FacultyResponse;
 import ru.scarlet.company.entities.Faculty;
+import ru.scarlet.company.excpetions.NotFound.DeanNotFoundException;
 import ru.scarlet.company.repository.DeanRepository;
 import ru.scarlet.company.repository.FacultyRepository;
 import ru.scarlet.company.services.FacultyService;
@@ -22,7 +23,7 @@ public class FacultyServiceImpl implements FacultyService {
 		Faculty faculty = new Faculty();
 		faculty.setName(facultyRequest.getName());
 		faculty.setShortName(facultyRequest.getShortName());
-		faculty.setDean(deanRepository.findById(facultyRequest.getDeanId()).orElseThrow(()->new RuntimeException("")));
+		faculty.setDean(deanRepository.findById(facultyRequest.getDeanId()).orElseThrow(()->new DeanNotFoundException("Dean not found")));
 		Faculty save = facultyRepository.save(faculty);
 		return new FacultyResponse(save.getName(), save.getShortName(), new DeanResponse(save.getDean().getFirstName(), save.getDean().getLastName(), save.getDean().getPatronymic()));
 	}

@@ -8,6 +8,7 @@ import ru.scarlet.company.dtos.DepartmentResponse;
 import ru.scarlet.company.dtos.FacultyResponse;
 import ru.scarlet.company.entities.Department;
 import ru.scarlet.company.entities.Faculty;
+import ru.scarlet.company.excpetions.NotFound.FacultyNotFoundException;
 import ru.scarlet.company.repository.DepartmentRepository;
 import ru.scarlet.company.repository.FacultyRepository;
 import ru.scarlet.company.services.DepartmentService;
@@ -21,7 +22,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public DepartmentResponse createDepartment(DepartmentRequest departmentRequest) {
 		Department department = new Department();
-		Faculty faculty = facultyRepository.findById(departmentRequest.getFacultyId()).orElseThrow(() -> new RuntimeException(""));
+		Faculty faculty = facultyRepository.findById(departmentRequest.getFacultyId()).orElseThrow(() -> new FacultyNotFoundException("Faculty not found"));
 		department.setFaculty(faculty);
 		department.setName(departmentRequest.getName());
 		department.setShortName(departmentRequest.getShortName());
