@@ -4,6 +4,7 @@ Used libraries, technologies:
 - Spring boot
 - Spring cloud
 - Spring data
+- Hibernate
 - Docker
 - PostgreSQL
 - Redis
