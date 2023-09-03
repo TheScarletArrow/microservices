@@ -10,4 +10,6 @@ public interface CourseService {
 	CourseResponse add(CourseRequest courseRequest);
 
 	void addCourseByDepartmentId(String departmentId, Integer courseRequest);
+
+	CourseResponse getCourseById(Integer courseId);
 }
