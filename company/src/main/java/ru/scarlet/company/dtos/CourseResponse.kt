@@ -1,5 +1,7 @@
 package ru.scarlet.company.dtos
 
+import com.fasterxml.jackson.annotation.JsonCreator
+
 data class CourseResponse(
     val courseCode: String,
     val courseName: String,
@@ -9,6 +11,6 @@ data class CourseResponse(
 
 data class DepartmentDtoCourse(val shortName: String, val name: String)
 
-data class ProfessorDtoCourse(val name: String, val expertise: ExpertiseDto) {}
+data class ProfessorDtoCourse @JsonCreator constructor(val name: String, val expertise: ExpertiseDto) {}
 
-data class ExpertiseDto(val name: String)
+data class ExpertiseDto @JsonCreator constructor(val name: String, val shortName: String)

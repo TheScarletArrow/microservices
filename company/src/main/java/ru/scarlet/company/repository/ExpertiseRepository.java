@@ -6,4 +6,6 @@ import ru.scarlet.company.entities.Expertise;
 
 @Repository
 public interface ExpertiseRepository extends JpaRepository<Expertise, Long> {
+	Expertise findByName(String name);
+
 }
