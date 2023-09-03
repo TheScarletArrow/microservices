@@ -24,20 +24,21 @@ public class CourseController {
 	public CourseController(CourseService courseService) {
 		this.courseService = courseService;
 	}
+
 	@GetMapping("/department/{departmentId}")
-	private ResponseEntity<?> getCoursesForDepartment(@PathVariable String departmentId){
+	private ResponseEntity<?> getCoursesForDepartment(@PathVariable String departmentId) {
 		List<CourseResponse> courseResponseList = courseService.getCoursesByDepartmentId(departmentId);
 		return ResponseEntity.ok().body(courseResponseList);
 	}
 
 	@PostMapping("/department/{departmentId}/{courseId}")
-	private ResponseEntity<Void> addCourseForDepartment(@PathVariable String departmentId, @PathVariable Integer courseId){
+	private ResponseEntity<Void> addCourseForDepartment(@PathVariable String departmentId, @PathVariable Integer courseId) {
 		courseService.addCourseByDepartmentId(departmentId, courseId);
 		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<CourseResponse> addCourse(@RequestBody CourseRequest courseRequest, HttpServletRequest request){
+	public ResponseEntity<CourseResponse> addCourse(@RequestBody CourseRequest courseRequest, HttpServletRequest request) {
 		CourseResponse add = courseService.add(courseRequest);
 		return ResponseEntity.created(URI.create(request.getRequestURI())).body(add);
 	}
