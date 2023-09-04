@@ -27,7 +27,9 @@ public class CourseController {
 	}
 
 	@GetMapping("/department/{departmentId}")
-	private ResponseEntity<?> getCoursesForDepartment(@PathVariable String departmentId, @RequestParam Integer page, @RequestParam Integer perPage) {
+	private ResponseEntity<?> getCoursesForDepartment(@PathVariable String departmentId,
+	                                                  @RequestParam(defaultValue = "0") Integer page,
+	                                                  @RequestParam(defaultValue = "10") Integer perPage) {
 		List<CourseResponse> courseResponseList = courseService.getCoursesByDepartmentId(departmentId, page, perPage);
 		return ResponseEntity.ok().body(courseResponseList);
 	}
