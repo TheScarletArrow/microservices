@@ -4,6 +4,9 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.scarlet.company.dtos.CourseRequest;
 import ru.scarlet.company.dtos.CourseResponse;
@@ -35,9 +38,10 @@ public class CourseServiceImpl implements CourseService {
 	private final ProfessorsMapper professorsMapper;
 
 	@Override
-	public List<CourseResponse> getCoursesByDepartmentId(String departmentId) {
-		List<Course> byDepartmentShortName = courseRepository.findByDepartmentShortName(departmentId);
-		List<CourseResponse> dto = courseMapper.toDto(byDepartmentShortName);
+	public List<CourseResponse> getCoursesByDepartmentId(String departmentId, Integer page, Integer perPage) {
+		Pageable pageable = PageRequest.of(page, perPage);
+		Page<Course> courseByDepartmentShortName = courseRepository.getCourseByDepartmentShortName(departmentId, pageable);
+		List<CourseResponse> dto = courseMapper.toDto(courseByDepartmentShortName.getContent());
 		return dto;
 	}
 

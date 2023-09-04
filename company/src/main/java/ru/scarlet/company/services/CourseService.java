@@ -5,7 +5,7 @@ import ru.scarlet.company.dtos.CourseRequest;
 import ru.scarlet.company.dtos.CourseResponse;
 
 public interface CourseService {
-	List<CourseResponse> getCoursesByDepartmentId(String departmentId);
+	List<CourseResponse> getCoursesByDepartmentId(String departmentId, Integer page, Integer perPage);
 
 	CourseResponse add(CourseRequest courseRequest);
 
