@@ -12,4 +12,6 @@ public interface CourseService {
 	void addCourseByDepartmentId(String departmentId, Integer courseRequest);
 
 	CourseResponse getCourseById(Integer courseId);
+
+	void addProfessor(Integer courseId, Integer professorId);
 }

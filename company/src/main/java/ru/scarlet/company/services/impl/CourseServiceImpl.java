@@ -16,6 +16,7 @@ import ru.scarlet.company.entities.Department;
 import ru.scarlet.company.entities.Professor;
 import ru.scarlet.company.excpetions.NotFound.CourseNotFoundException;
 import ru.scarlet.company.excpetions.NotFound.DeanNotFoundException;
+import ru.scarlet.company.excpetions.NotFound.ProfessorNotFoundException;
 import ru.scarlet.company.mappers.CourseMapper;
 import ru.scarlet.company.mappers.ProfessorsMapper;
 import ru.scarlet.company.repository.CourseRepository;
@@ -72,5 +73,14 @@ public class CourseServiceImpl implements CourseService {
 	public CourseResponse getCourseById(Integer courseId) {
 		Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException("Course " + courseId + " not found"));
 		return courseMapper.toDto(course);
+	}
+
+	@Override
+	@Transactional
+	public void addProfessor(Integer courseId, Integer professorId) {
+		Professor professor = professorRepository.findById(professorId).orElseThrow(() -> new ProfessorNotFoundException("Professor " + professorId + " not found"));
+		Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException("Course " + courseId + " not found"));
+		course.getTaughtByProfessors().add(professor);
+		professor.getTeachingCourses().add(course);
 	}
 }

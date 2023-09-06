@@ -51,4 +51,10 @@ public class CourseController {
 		CourseResponse response = courseService.getCourseById(courseId);
 		return ResponseEntity.ok(response);
 	}
+
+	@PostMapping("/{courseId}/professor/{professorId}")
+	public ResponseEntity<Void> addProfessorToCourse(@PathVariable Integer professorId, @PathVariable Integer courseId){
+		courseService.addProfessor(courseId, professorId);
+		return ResponseEntity.noContent().build();
+	}
 }
