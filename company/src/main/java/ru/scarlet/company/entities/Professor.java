@@ -23,9 +23,16 @@ public class Professor {
 
 	private String phone;
 
+
+	private Boolean enableNotifyByPhone = true;
+
 	private String email;
 
+	private Boolean enableNotifyByMail = Boolean.TRUE;
 
+	@ManyToOne
+	@JoinColumn(name = "department_oid")
+	private Department department;
 	@ManyToOne
 	@JoinColumn(name = "expertise_id")
 	private Expertise expertise;

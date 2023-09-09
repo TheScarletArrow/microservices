@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import ru.scarlet.company.dtos.CourseRequest;
 import ru.scarlet.company.dtos.CourseResponse;
 import ru.scarlet.company.dtos.DepartmentDtoCourse;
+import ru.scarlet.company.dtos.ProfessorContactDetails;
 import ru.scarlet.company.entities.Course;
 import ru.scarlet.company.entities.Department;
 import ru.scarlet.company.entities.Professor;
@@ -24,10 +26,13 @@ import ru.scarlet.company.repository.DepartmentRepository;
 import ru.scarlet.company.repository.ProfessorRepository;
 import ru.scarlet.company.services.CourseService;
 
+import static ru.scarlet.company.configs.RabbitConfigurationKt.NEW_POST_ROUTING_KEY;
+
 
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
+
 
 	private final CourseRepository courseRepository;
 
@@ -37,6 +42,8 @@ public class CourseServiceImpl implements CourseService {
 
 	private final CourseMapper courseMapper;
 	private final ProfessorsMapper professorsMapper;
+
+	private final RabbitTemplate rabbitTemplate;
 
 	@Override
 	public List<CourseResponse> getCoursesByDepartmentId(String departmentId, Integer page, Integer perPage) {
@@ -82,5 +89,8 @@ public class CourseServiceImpl implements CourseService {
 		Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException("Course " + courseId + " not found"));
 		course.getTaughtByProfessors().add(professor);
 		professor.getTeachingCourses().add(course);
+
+		ProfessorContactDetails contactDetails = professorsMapper.toContactDetails(professor);
+		rabbitTemplate.convertAndSend(NEW_POST_ROUTING_KEY, contactDetails);
 	}
 }

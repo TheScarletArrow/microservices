@@ -36,4 +36,10 @@ public class Department {
 			inverseJoinColumns = @JoinColumn(name = "course_id")
 	)
 	private List<Course> teachingCorses;
+
+//	@ManyToMany
+//			@JoinTable(name = "department_professors",
+//			joinColumns = @JoinColumn(name = "department_id"),
+//			inverseJoinColumns = @JoinColumn(name = "professor_id"))
+//	List<Professor> professors;
 }

@@ -71,7 +71,19 @@ services:
       monitoring:
         aliases:
           - prometheus
-
+  rabbit:
+    image: rabbitmq:3.7.7-management
+    hostname: rabbit
+    container_name: rabbit
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_VHOST: /
+    labels:
+      NAME: rabbitmq
 volumes:
   mariadb_data:
     driver: local
