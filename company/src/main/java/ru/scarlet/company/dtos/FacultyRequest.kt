@@ -6,6 +6,7 @@ data class FacultyRequest(
     val deanId: Int
 
 )
+
 data class FacultyResponse(
     val name: String,
     val shortName: String,
@@ -14,6 +15,12 @@ data class FacultyResponse(
 
 data class FacultyDeanGetResponse(
     val name: String,
-    val shortName: String,
+    val shortName: String
+)
 
+data class FacultyGetAll(
+    val name: String,
+    val shortName: String,
+    val dean: DeanResponse,
+    val departments: List<DepartmentShortResponse>
 )

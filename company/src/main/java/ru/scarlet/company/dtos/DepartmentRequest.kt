@@ -10,3 +10,7 @@ data class DepartmentResponse(
     val name: String,
     val faculty: FacultyResponse
 )
+data class DepartmentShortResponse(
+    val shortName: String,
+    val name: String,
+)
