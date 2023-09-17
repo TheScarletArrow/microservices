@@ -3,6 +3,8 @@
 Used libraries, technologies:
 - Spring boot
 - Spring cloud
+- Discovery Server - Eureka
+- Spring Gateway
 - Spring data
 - Hibernate
 - Docker
