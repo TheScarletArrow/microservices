@@ -4,7 +4,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.scarlet.company.dtos.DeanResponse;
-import ru.scarlet.company.dtos.FacultyGetAll;
 import ru.scarlet.company.dtos.FacultyRequest;
 import ru.scarlet.company.dtos.FacultyResponse;
 import ru.scarlet.company.entities.Faculty;
@@ -35,8 +34,8 @@ public class FacultyServiceImpl implements FacultyService {
 	}
 
 	@Override
-	public List<FacultyGetAll> getAll() {
-		List<Faculty> all = facultyRepository.findAll();
-        return facultyMapper.toListGetAll(all);
+	public List<Faculty> getAll() {
+		return facultyRepository.findAll();
+
 	}
 }

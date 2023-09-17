@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 import ru.scarlet.company.dtos.DeanGetResponse;
-import ru.scarlet.company.dtos.FacultyGetAll;
+import ru.scarlet.company.entities.Faculty;
 import ru.scarlet.company.services.DeanService;
 import ru.scarlet.company.services.FacultyService;
 
@@ -22,7 +22,7 @@ public class QueryController {
     }
 
     @QueryMapping
-    List<FacultyGetAll> faculties(){
+    List<Faculty> faculties(){
         return facultyService.getAll();
     }
 }
