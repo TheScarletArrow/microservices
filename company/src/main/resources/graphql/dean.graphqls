@@ -1,0 +1,16 @@
+type Dean{
+    oid: ID!,
+
+    firstName: String,
+
+    lastName: String,
+
+    patronymic: String,
+
+    faculty: FacultyDeanGetResponse
+}
+
+type FacultyDeanGetResponse{
+    name: String,
+    shortName: String
+}

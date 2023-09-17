@@ -25,6 +25,11 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  graphql:
+    graphiql:
+      enabled: true
+    playground:
+      enabled: true
 application:
   jwt:
     secretKey: secretScarletH!NtSTheR@wT0L!ghTwHeNtheD4rKD!eSsecretScarletH!NtSTheR@wT0L!ghTwHeNtheD4rKD!eSsecretScarletH!NtSTheR@wT0L!ghTwHeNtheD4rKD!eS
@@ -43,3 +48,6 @@ management:
     distribution:
       percentiles-histogram:
         "[http.server.requests]": true
+voyager:
+  cdn:
+    enabled: true

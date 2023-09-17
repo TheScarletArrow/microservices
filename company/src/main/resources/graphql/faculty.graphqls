@@ -1,0 +1,18 @@
+type Faculty{
+    name: String,
+    shortName: String,
+    dean: DeanFaculty,
+    departments: [Department]
+}
+
+type DeanFaculty{
+    firstName: String,
+
+    lastName: String,
+
+    patronymic: String
+}
+type Department{
+    shortName: String,
+    name: String
+}
