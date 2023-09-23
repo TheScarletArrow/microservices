@@ -1,14 +1,28 @@
-# Use a base image with Java 17 installed
-FROM openjdk:17
+# Step 1: Resolve Maven dependencies and build the application
+FROM maven:3.8.3-openjdk-17 AS build
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the Spring Boot application JAR file to the container
-COPY target/discovery-0.0.1-SNAPSHOT.jar /app/your-spring-boot-app.jar
+# Copy only the pom.xml to leverage Docker caching
+COPY pom.xml .
 
-# Expose the port your Spring Boot application is listening on (change the port if necessary)
-EXPOSE 8761
+# Resolve Maven dependencies, caching them
+RUN mvn dependency:go-offline
 
-# Command to run the Spring Boot application
-CMD ["java", "-jar", "your-spring-boot-app.jar"]
+# Copy the entire project and build the application
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Step 2: Create the runtime image
+# Use a smaller base image for the runtime environment
+FROM bellsoft/liberica-openjdk-alpine:17
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the JAR file from the build stage to the runtime image
+COPY --from=build /app/target/*.jar app.jar
+
+# Set the entry point for the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
