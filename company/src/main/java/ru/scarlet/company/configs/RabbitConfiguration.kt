@@ -19,12 +19,14 @@ const val STORE_QUEUE = "allEvents"
 const val SESSION_QUEUE = "sessionEvents"
 const val POST_QUEUE = "postEvents"
 const val COMMENT_QUEUE = "commentEvents"
+const val AUDIT_QUEUE = "auditEvents"
 
 const val NEW_CUSTOMER_ROUTING_KEY = "store.customer.created"
 const val NEW_ORDER_ROUTING_KEY = "store.order.created"
 const val NEW_SESSION_ROUTING_KEY = "store.session.created"
 const val NEW_POST_ROUTING_KEY = "store.post.created"
 const val NEW_COMMENT_ROUTING_KEY = "store.comment.created"
+const val NEW_AUDIT_ROUTING_KEY = "audit.event.log"
 @Configuration
 open class RabbitConfiguration {
 
@@ -32,6 +34,11 @@ open class RabbitConfiguration {
     @Bean
     open fun eventExchange(): TopicExchange {
         return TopicExchange(EXCHANGE_NAME, true, false)
+    }
+
+    @Bean(AUDIT_QUEUE)
+    open fun auditQueue(): Queue {
+        return Queue(AUDIT_QUEUE, true)
     }
 
     @Bean(CUSTOMER_RELATIONS_QUEUE)
@@ -71,6 +78,10 @@ open class RabbitConfiguration {
             .with("store.customer.#")
     }
 
+    @Bean
+    open fun audit(@Qualifier(AUDIT_QUEUE) queue: Queue, eventExchange: TopicExchange) : Binding{
+        return BindingBuilder.bind(queue).to(eventExchange).with("audit.event.#")
+    }
     @Bean
     open fun newOrders(@Qualifier(ORDER_DISPATCH_QUEUE) queue: Queue, eventExchange: TopicExchange): Binding {
         return BindingBuilder
