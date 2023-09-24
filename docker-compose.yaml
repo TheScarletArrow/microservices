@@ -92,16 +92,20 @@ services:
       - "8888:8888"
   gateway:
     build:
-      context: config-server
+      context: gateway
       dockerfile: Dockerfile
     ports:
       - "8222:8222"
   discovery:
     build:
-      context: config-server
+      context: discovery
       dockerfile: Dockerfile
     ports:
       - "8761:8761"
+  univer:
+    build:
+      context: company
+      dockerfile: Dockerfile
 volumes:
   mariadb_data:
     driver: local
