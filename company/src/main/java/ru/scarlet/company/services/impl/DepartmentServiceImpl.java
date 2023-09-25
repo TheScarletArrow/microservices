@@ -13,6 +13,8 @@ import ru.scarlet.company.repository.DepartmentRepository;
 import ru.scarlet.company.repository.FacultyRepository;
 import ru.scarlet.company.services.DepartmentService;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
@@ -30,5 +32,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 		Department save = departmentRepository.save(department);
 		return new DepartmentResponse(save.getShortName(), save.getName(), new FacultyResponse(faculty.getName(), faculty.getShortName(), new DeanResponse(faculty.getDean().getFirstName(), faculty.getDean().getLastName(), faculty.getDean().getPatronymic())));
+	}
+
+	@Override
+	public List<Department> getAll() {
+		return departmentRepository.findAll();
 	}
 }

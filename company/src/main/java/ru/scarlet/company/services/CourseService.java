@@ -3,10 +3,12 @@ package ru.scarlet.company.services;
 import java.util.List;
 import ru.scarlet.company.dtos.CourseRequest;
 import ru.scarlet.company.dtos.CourseResponse;
+import ru.scarlet.company.entities.Course;
 
 public interface CourseService {
 	List<CourseResponse> getCoursesByDepartmentId(String departmentId, Integer page, Integer perPage);
 
+	List<Course> getCoursesByDepartment(String departmentId, Integer page, Integer perPage);
 	CourseResponse add(CourseRequest courseRequest);
 
 	void addCourseByDepartmentId(String departmentId, Integer courseRequest);

@@ -54,6 +54,14 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+	public List<Course> getCoursesByDepartment(String departmentId, Integer page, Integer perPage) {
+		Pageable pageable = PageRequest.of(page, perPage);
+		Page<Course> courseByDepartmentShortName = courseRepository.getCourseByDepartmentShortName(departmentId, pageable);
+		return courseByDepartmentShortName.getContent();
+
+	}
+
+	@Override
 	public CourseResponse add(CourseRequest courseRequest) {
 		Course course = new Course();
 		course.setCourseCode(courseRequest.getCourseCode());

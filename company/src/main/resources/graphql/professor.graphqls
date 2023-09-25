@@ -1,0 +1,11 @@
+type Professor{
+    oid: ID!,
+    name: String,
+    phone: String,
+    enableNotifyByPhone: Boolean,
+    email: String,
+    enableNotifyByMail: Boolean,
+    department: Department,
+    expertise: Expertise,
+    teachingCourses: [Course]
+}

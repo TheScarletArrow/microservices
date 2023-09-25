@@ -9,4 +9,6 @@ public interface ProfessorService {
 	Professor add(ProfessorDtoRequest dto);
 
     List<ProfessorDtoResponse> getAllByDepartmentId(String departmentId);
+
+    List<Professor> getAllByDepartmentIdE(String departmentId);
 }

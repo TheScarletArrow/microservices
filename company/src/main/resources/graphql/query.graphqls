@@ -4,4 +4,12 @@ type Query{
     deans: [Dean]
 
     faculties: [Faculty]
+
+    professors: [Professor]
+
+    courses: [Course]
+
+    professorsByDep (departmentId: String) : [Professor]
+
+    coursesByDep(department: String, page: Int, perPage: Int) : [Course]
 }

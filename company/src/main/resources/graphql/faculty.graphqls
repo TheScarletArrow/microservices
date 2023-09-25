@@ -1,7 +1,8 @@
 type Faculty{
+    oid: ID!,
     name: String,
     shortName: String,
-    dean: DeanFaculty,
+    dean: Dean,
     departments: [Department]
 }
 
@@ -11,8 +12,4 @@ type DeanFaculty{
     lastName: String,
 
     patronymic: String
-}
-type Department{
-    shortName: String,
-    name: String
 }

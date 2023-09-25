@@ -29,4 +29,9 @@ public class ProfessorServiceImpl implements ProfessorService {
 		List<ProfessorDtoResponse> collect = professorRepository.findByDepartment_ShortName(departmentId).stream().map(professorsMapper::toResponse).toList();
 		return collect;
 	}
+
+	@Override
+	public List<Professor> getAllByDepartmentIdE(String departmentId) {
+		return professorRepository.findByDepartment_ShortName(departmentId);
+	}
 }

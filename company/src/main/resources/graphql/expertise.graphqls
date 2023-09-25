@@ -1,0 +1,5 @@
+type Expertise{
+    oid: ID!,
+    name: String,
+    shortName: String
+}

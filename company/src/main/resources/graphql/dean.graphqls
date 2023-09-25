@@ -5,12 +5,6 @@ type Dean{
 
     lastName: String,
 
-    patronymic: String,
-
-    faculty: FacultyDeanGetResponse
+    patronymic: String
 }
 
-type FacultyDeanGetResponse{
-    name: String,
-    shortName: String
-}

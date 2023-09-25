@@ -1,0 +1,11 @@
+type Department{
+    oid: ID!,
+
+    shortName: String,
+
+    name: String,
+
+    faculty: Faculty,
+
+    teachingCourses: [Course]
+}
