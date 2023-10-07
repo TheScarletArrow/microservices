@@ -9,6 +9,7 @@ import ru.scarlet.company.dtos.DeanRequest;
 import ru.scarlet.company.dtos.FacultyDeanGetResponse;
 import ru.scarlet.company.entities.Dean;
 import ru.scarlet.company.entities.Faculty;
+import ru.scarlet.company.excpetions.NotFound.DeanNotFoundException;
 import ru.scarlet.company.mappers.DeanMapper;
 import ru.scarlet.company.repository.DeanRepository;
 import ru.scarlet.company.repository.FacultyRepository;
@@ -43,5 +44,17 @@ public class DeanServiceImpl implements DeanService {
 			deanResponses.add(deanResponse);
 		}
 		return deanResponses;
+	}
+
+	@Override
+	public List<Dean> getAllEntity() {
+		List<Dean> all = deanRepository.findAll();
+
+		return all;
+	}
+
+	@Override
+	public Dean getDeanById(Integer id) {
+		return deanRepository.findById(id).orElseThrow(()->new DeanNotFoundException("Dean not found with id "+id));
 	}
 }

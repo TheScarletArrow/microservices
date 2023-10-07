@@ -9,4 +9,8 @@ public interface DeanService {
 	Dean createDean(DeanRequest deanRequest);
 
 	List<DeanGetResponse> getAll();
+
+	List<Dean> getAllEntity();
+
+	Dean getDeanById(Integer id);
 }

@@ -5,6 +5,10 @@ type Dean{
 
     lastName: String,
 
-    patronymic: String
+    patronymic: String,
+
+    teachingCourses: [Course],
+
+    faculty: Faculty
 }
 

@@ -24,8 +24,8 @@ public class QueryController {
     private final ExpertiseService expertiseService;
     private final CourseService courseService;
     @QueryMapping
-    List<DeanGetResponse> deans(){
-        return deanService.getAll();
+    List<Dean> deans(){
+        return deanService.getAllEntity();
     }
 
     @QueryMapping

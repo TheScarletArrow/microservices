@@ -1,15 +1,8 @@
 package ru.scarlet.company.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,4 +34,6 @@ public class Dean {
 	@JsonIgnore
 	private List<Course> teachingCourses;
 
+	@OneToOne
+	Faculty faculty;
 }

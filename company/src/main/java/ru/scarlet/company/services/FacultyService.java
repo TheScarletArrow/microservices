@@ -9,4 +9,8 @@ public interface FacultyService {
 	FacultyResponse createFaculty(FacultyRequest facultyRequest);
 
     List<Faculty> getAll();
+
+    Faculty getById(Integer id);
+
+    void setDeanAndFac(Integer facId, Integer id);
 }
