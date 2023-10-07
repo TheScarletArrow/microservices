@@ -1,5 +1,6 @@
 package ru.scarlet.company.services.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.scarlet.company.dtos.DeanResponse;
@@ -22,6 +23,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	private final FacultyRepository facultyRepository;
 	@Override
+	@Transactional
 	public DepartmentResponse createDepartment(DepartmentRequest departmentRequest) {
 		Department department = new Department();
 		Faculty faculty = facultyRepository.findById(departmentRequest.getFacultyId()).orElseThrow(() -> new FacultyNotFoundException("Faculty not found"));
@@ -31,6 +33,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 		department.setName(departmentRequest.getName());
 
 		Department save = departmentRepository.save(department);
+		faculty.getDepartments().add(save);
 		return new DepartmentResponse(save.getShortName(), save.getName(), new FacultyResponse(faculty.getName(), faculty.getShortName(), new DeanResponse(faculty.getDean().getFirstName(), faculty.getDean().getLastName(), faculty.getDean().getPatronymic())));
 	}
 

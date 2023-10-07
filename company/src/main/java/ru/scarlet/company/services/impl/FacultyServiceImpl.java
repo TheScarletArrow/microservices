@@ -28,15 +28,17 @@ public class FacultyServiceImpl implements FacultyService {
 
 	private final DeanService deanService;
 
-	private final FacultyMapper facultyMapper;
-
 	@Override
+	@Transactional
 	public FacultyResponse createFaculty(FacultyRequest facultyRequest) {
 		Faculty faculty = new Faculty();
 		faculty.setName(facultyRequest.getName());
 		faculty.setShortName(facultyRequest.getShortName());
-		faculty.setDean(deanRepository.findById(facultyRequest.getDeanId()).orElseThrow(()->new DeanNotFoundException("Dean not found")));
+		var dean = deanRepository.findById(facultyRequest.getDeanId()).orElseThrow(()->new DeanNotFoundException("Dean not found"));
+		faculty.setDean(dean);
+
 		Faculty save = facultyRepository.save(faculty);
+		dean.setFaculty(save);
 		return new FacultyResponse(save.getName(), save.getShortName(), new DeanResponse(save.getDean().getFirstName(), save.getDean().getLastName(), save.getDean().getPatronymic()));
 	}
 
