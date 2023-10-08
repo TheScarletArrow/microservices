@@ -17,7 +17,19 @@
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.3</spring-cloud.version>
         <kotlin.version>1.9.10</kotlin.version>
-    </properties>
+		<voyager-spring-boot-starter.version>11.1.0</voyager-spring-boot-starter.version>
+		<playground-spring-boot-starter.version>11.1.0</playground-spring-boot-starter.version>
+		<graphql-spring-boot-starter.version>15.0.0</graphql-spring-boot-starter.version>
+		<spring-boot-starter-amqp.version>3.0.8</spring-boot-starter-amqp.version>
+		<amqp-client.version>5.18.0</amqp-client.version>
+		<micrometer-registry-prometheus.version>1.11.2</micrometer-registry-prometheus.version>
+		<swagger-annotations-jakarta.version>2.2.15</swagger-annotations-jakarta.version>
+		<springdoc-openapi-starter-webmvc-api.version>2.2.0</springdoc-openapi-starter-webmvc-api.version>
+		<springdoc-openapi-starter-webmvc-ui.version>2.2.0</springdoc-openapi-starter-webmvc-ui.version>
+		<graphql-java-kickstart.version>15.0.0</graphql-java-kickstart.version>
+		<mapstruct-processor.version>1.5.5.Final</mapstruct-processor.version>
+		<mapstruct.version>1.5.5.Fina</mapstruct.version>
+	</properties>
 	<dependencies>
 
 		<dependency>
@@ -76,35 +88,35 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.5.5.Final</version>
+			<version>${mapstruct.version}l</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct-processor</artifactId>
-			<version>1.5.5.Final</version> <!-- Use the appropriate version -->
+			<version>${mapstruct-processor.version}</version> <!-- Use the appropriate version -->
 			<scope>provided</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.graphql-java-kickstart/graphql-java-kickstart -->
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-java-kickstart</artifactId>
-			<version>15.0.0</version>
+			<version>${graphql-java-kickstart.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.2.0</version>
+			<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
-			<version>2.2.0</version>
+			<version>${springdoc-openapi-starter-webmvc-api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations-jakarta</artifactId>
-			<version>2.2.15</version>
+			<version>${swagger-annotations-jakarta.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -114,19 +126,19 @@
 		<dependency>
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-prometheus</artifactId>
-			<version>1.11.2</version>
+			<version>${micrometer-registry-prometheus.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
 		<dependency>
 			<groupId>com.rabbitmq</groupId>
 			<artifactId>amqp-client</artifactId>
-			<version>5.18.0</version>
+			<version>${amqp-client.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.amqp/spring-amqp -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
-			<version>3.0.8</version>
+			<version>${spring-boot-starter-amqp.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-graphql -->
 		<dependency>
@@ -137,18 +149,18 @@
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-spring-boot-starter</artifactId>
-			<version>15.0.0</version>
+			<version>${graphql-spring-boot-starter.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.graphql-java-kickstart/playground-spring-boot-starter -->
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>playground-spring-boot-starter</artifactId>
-			<version>11.1.0</version>
+			<version>${playground-spring-boot-starter.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>voyager-spring-boot-starter</artifactId>
-			<version>11.1.0</version>
+			<version>${voyager-spring-boot-starter.version}</version>
 		</dependency>
 
 <!--		<dependency>-->
