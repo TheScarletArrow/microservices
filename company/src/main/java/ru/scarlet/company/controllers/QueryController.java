@@ -59,4 +59,9 @@ public class QueryController {
     List<Expertise> expertise(){
         return expertiseService.getAll();
     }
+
+    @QueryMapping
+    Course courseById(@Argument Integer courseId){
+        return courseService.getCourseByIdE(courseId);
+    }
 }

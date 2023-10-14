@@ -108,4 +108,9 @@ public class CourseServiceImpl implements CourseService {
 	public List<Course> getCoursesByProfessor(Integer professorId) {
 		return courseRepository.getCoursesByProfessorId(professorId);
 	}
+
+	@Override
+	public Course getCourseByIdE(Integer courseId) {
+		return courseRepository.findById(courseId).orElseThrow(()->new CourseNotFoundException("Course not found"));
+	}
 }

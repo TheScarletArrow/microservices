@@ -18,4 +18,6 @@ public interface CourseService {
 	void addProfessor(Integer courseId, Integer professorId);
 
     List<Course> getCoursesByProfessor(Integer professorId);
+
+	Course getCourseByIdE(Integer courseId);
 }

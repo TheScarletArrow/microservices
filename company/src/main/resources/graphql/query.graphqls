@@ -18,4 +18,6 @@ type Query{
     professorById(professorId: Int): Professor
 
     expertise: [Expertise]
+
+    courseById(courseId: Int): Course
 }
