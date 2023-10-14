@@ -1,6 +1,7 @@
 package ru.scarlet.company.services.impl;
 
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import ru.scarlet.company.entities.Course;
 import ru.scarlet.company.entities.Department;
 import ru.scarlet.company.entities.Professor;
 import ru.scarlet.company.excpetions.NotFound.CourseNotFoundException;
-import ru.scarlet.company.excpetions.NotFound.DeanNotFoundException;
+import ru.scarlet.company.excpetions.NotFound.DepartmentNotFoundException;
 import ru.scarlet.company.excpetions.NotFound.ProfessorNotFoundException;
 import ru.scarlet.company.mappers.CourseMapper;
 import ru.scarlet.company.mappers.ProfessorsMapper;
@@ -49,8 +50,7 @@ public class CourseServiceImpl implements CourseService {
 	public List<CourseResponse> getCoursesByDepartmentId(String departmentId, Integer page, Integer perPage) {
 		Pageable pageable = PageRequest.of(page, perPage);
 		Page<Course> courseByDepartmentShortName = courseRepository.getCourseByDepartmentShortName(departmentId, pageable);
-		List<CourseResponse> dto = courseMapper.toDto(courseByDepartmentShortName.getContent());
-		return dto;
+        return courseMapper.toDto(courseByDepartmentShortName.getContent());
 	}
 
 	@Override
@@ -66,12 +66,14 @@ public class CourseServiceImpl implements CourseService {
 		Course course = new Course();
 		course.setCourseCode(courseRequest.getCourseCode());
 		course.setCourseName(courseRequest.getCourseName());
-		course.setDepartment(departmentRepository.findById(courseRequest.getDepartmentOid()).orElseThrow(()->new DeanNotFoundException("Department not found")));
-		List<Professor> allById = professorRepository.findAllById(courseRequest.getProfessors());
-		course.setTaughtByProfessors(allById);
+		course.setDepartment(departmentRepository.findById(courseRequest.getDepartmentOid()).orElseThrow(()->new DepartmentNotFoundException("Department not found")));
+		if(!courseRequest.getProfessors().isEmpty()) {
+			List<Professor> allById = professorRepository.findAllById(courseRequest.getProfessors());
+			course.setTaughtByProfessors(allById);
+		} else course.setTaughtByProfessors(new ArrayList<>());
 		Course save = courseRepository.save(course);
-		return new CourseResponse(courseRequest.getCourseCode(), courseRequest.getCourseName(),
-				new DepartmentDtoCourse(course.getDepartment().getShortName(), course.getDepartment().getName()), allById.stream().map(professorsMapper::toDto).collect(Collectors.toList()));
+		return new CourseResponse(save.getOid(),courseRequest.getCourseCode(), courseRequest.getCourseName(),
+				new DepartmentDtoCourse(course.getDepartment().getShortName(), course.getDepartment().getName()), save.getTaughtByProfessors().stream().map(professorsMapper::toDto).collect(Collectors.toList()));
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package ru.scarlet.company.dtos
 import com.fasterxml.jackson.annotation.JsonCreator
 
 data class CourseResponse(
+    val oid: Int,
     val courseCode: String,
     val courseName: String,
     val department: DepartmentDtoCourse,

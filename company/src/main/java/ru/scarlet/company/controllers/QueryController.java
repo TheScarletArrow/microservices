@@ -5,9 +5,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
-import ru.scarlet.company.dtos.DeanGetResponse;
-import ru.scarlet.company.entities.*;
-import ru.scarlet.company.services.*;
+import ru.scarlet.company.entities.Course;
+import ru.scarlet.company.entities.Dean;
+import ru.scarlet.company.entities.Department;
+import ru.scarlet.company.entities.Faculty;
+import ru.scarlet.company.entities.Professor;
+import ru.scarlet.company.services.CourseService;
+import ru.scarlet.company.services.DeanService;
+import ru.scarlet.company.services.DepartmentService;
+import ru.scarlet.company.services.FacultyService;
+import ru.scarlet.company.services.ProfessorService;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,7 +28,6 @@ public class QueryController {
 
     private final ProfessorService professorService;
 
-    private final ExpertiseService expertiseService;
     private final CourseService courseService;
     @QueryMapping
     List<Dean> deans(){
@@ -37,10 +43,11 @@ public class QueryController {
     List<Department> departments(){return departmentService.getAll();}
 
     @QueryMapping
-    List<Professor> professors(@Argument String departmentId){return professorService.getAllByDepartmentIdE(departmentId);}
+    List<Professor> professorsByDep(@Argument String departmentId){return professorService.getAllByDepartmentIdE(departmentId);}
 
     @QueryMapping
     List<Course> coursesByDep(@Argument String department, @Argument Integer page,  @Argument Integer perPage){
         return courseService.getCoursesByDepartment(department, page, perPage);
     }
+
 }
