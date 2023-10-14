@@ -34,4 +34,6 @@ public class ProfessorController {
 		List<ProfessorDtoResponse> responses = professorService.getAllByDepartmentId(departmentId);
 		return  ResponseEntity.ok(responses);
 	}
+
+
 }

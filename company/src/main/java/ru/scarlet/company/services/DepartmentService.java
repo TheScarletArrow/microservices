@@ -10,4 +10,6 @@ public interface DepartmentService {
 	DepartmentResponse createDepartment(DepartmentRequest departmentRequest);
 
     List<Department> getAll();
+
+    void addProfessorToDepartment(Integer departmentOid, Integer professorOid);
 }

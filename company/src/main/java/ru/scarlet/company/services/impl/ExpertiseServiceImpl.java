@@ -8,6 +8,8 @@ import ru.scarlet.company.mappers.ExpertiseMapping;
 import ru.scarlet.company.repository.ExpertiseRepository;
 import ru.scarlet.company.services.ExpertiseService;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ExpertiseServiceImpl implements ExpertiseService {
@@ -19,5 +21,10 @@ public class ExpertiseServiceImpl implements ExpertiseService {
 	public Expertise create(ExpertiseDto expertiseDto) {
 		Expertise expertise = expertiseMapping.toEntity(expertiseDto);
 		return expertiseRepository.save(expertise);
+	}
+
+	@Override
+	public List<Expertise> getAll() {
+		return expertiseRepository.findAll();
 	}
 }

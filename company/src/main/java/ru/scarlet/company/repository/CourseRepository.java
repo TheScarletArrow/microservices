@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.scarlet.company.entities.Course;
 
+import java.util.List;
+
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Integer> {
 
@@ -17,4 +19,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 	Page<Course> getCourseByDepartmentShortName(String departmentShortName, Pageable pageable);
 
 
+	@Query("select p.teachingCourses from Professor p")
+	List<Course> getCoursesByProfessorId(Integer professorId);
 }

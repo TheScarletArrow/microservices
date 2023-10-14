@@ -12,4 +12,10 @@ type Query{
     professorsByDep (departmentId: String) : [Professor]
 
     coursesByDep(department: String, page: Int, perPage: Int) : [Course]
+
+    getCoursesByProfessor(professorId: Int): [Course]
+
+    professorById(professorId: Int): Professor
+
+    expertise: [Expertise]
 }

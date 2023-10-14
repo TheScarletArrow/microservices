@@ -103,4 +103,9 @@ public class CourseServiceImpl implements CourseService {
 		ProfessorContactDetails contactDetails = professorsMapper.toContactDetails(professor);
 		rabbitTemplate.convertAndSend(NEW_POST_ROUTING_KEY, contactDetails);
 	}
+
+	@Override
+	public List<Course> getCoursesByProfessor(Integer professorId) {
+		return courseRepository.getCoursesByProfessorId(professorId);
+	}
 }

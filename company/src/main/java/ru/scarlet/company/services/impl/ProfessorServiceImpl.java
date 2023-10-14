@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.scarlet.company.dtos.ProfessorDtoRequest;
 import ru.scarlet.company.dtos.ProfessorDtoResponse;
 import ru.scarlet.company.entities.Professor;
+import ru.scarlet.company.excpetions.NotFound.ProfessorNotFoundException;
 import ru.scarlet.company.mappers.ProfessorsMapper;
 import ru.scarlet.company.repository.ExpertiseRepository;
 import ru.scarlet.company.repository.ProfessorRepository;
@@ -26,12 +27,16 @@ public class ProfessorServiceImpl implements ProfessorService {
 
 	@Override
 	public List<ProfessorDtoResponse> getAllByDepartmentId(String departmentId) {
-		List<ProfessorDtoResponse> collect = professorRepository.findByDepartment_ShortName(departmentId).stream().map(professorsMapper::toResponse).toList();
-		return collect;
+		return professorRepository.findByDepartment_ShortName(departmentId).stream().map(professorsMapper::toResponse).toList();
 	}
 
 	@Override
 	public List<Professor> getAllByDepartmentIdE(String departmentId) {
 		return professorRepository.findByDepartment_ShortName(departmentId);
+	}
+
+	@Override
+	public Professor getById(Integer professorId) {
+		return professorRepository.findById(professorId).orElseThrow(()->new ProfessorNotFoundException("Professor not found"));
 	}
 }

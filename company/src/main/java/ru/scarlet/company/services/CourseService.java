@@ -16,4 +16,6 @@ public interface CourseService {
 	CourseResponse getCourseById(Integer courseId);
 
 	void addProfessor(Integer courseId, Integer professorId);
+
+    List<Course> getCoursesByProfessor(Integer professorId);
 }
