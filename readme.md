@@ -9,6 +9,7 @@ Used libraries, technologies:
 - Hibernate
 - Docker
 - PostgreSQL
+- GraphQL
 - Redis
 - Prometheus
 - Grafana
