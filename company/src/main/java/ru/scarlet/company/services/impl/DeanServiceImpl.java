@@ -38,7 +38,7 @@ public class DeanServiceImpl implements DeanService {
 		List<Dean> all = deanRepository.findAll();
 		List<DeanGetResponse> deanResponses = new ArrayList<>();
 		for (Dean dean : all) {
-			Faculty byDeanOid = facultyRepository.findByDean_Oid(dean.getOid());
+			Faculty byDeanOid = facultyRepository.findByDeanOid(dean.getOid());
 			FacultyDeanGetResponse facultyDeanResponse = new FacultyDeanGetResponse(byDeanOid.getName(), byDeanOid.getShortName());
 			DeanGetResponse deanResponse = new DeanGetResponse(dean.getFirstName(), dean.getLastName(), dean.getPatronymic(), facultyDeanResponse);
 			deanResponses.add(deanResponse);
@@ -48,9 +48,8 @@ public class DeanServiceImpl implements DeanService {
 
 	@Override
 	public List<Dean> getAllEntity() {
-		List<Dean> all = deanRepository.findAll();
 
-		return all;
+		return deanRepository.findAll();
 	}
 
 	@Override

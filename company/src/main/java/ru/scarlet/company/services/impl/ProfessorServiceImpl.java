@@ -1,6 +1,8 @@
 package ru.scarlet.company.services.impl;
 
 import java.util.List;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.scarlet.company.dtos.ProfessorDtoRequest;
@@ -27,16 +29,25 @@ public class ProfessorServiceImpl implements ProfessorService {
 
 	@Override
 	public List<ProfessorDtoResponse> getAllByDepartmentId(String departmentId) {
-		return professorRepository.findByDepartment_ShortName(departmentId).stream().map(professorsMapper::toResponse).toList();
+		return professorRepository.findByDepartmentShortName(departmentId).stream().map(professorsMapper::toResponse).toList();
 	}
 
 	@Override
 	public List<Professor> getAllByDepartmentIdE(String departmentId) {
-		return professorRepository.findByDepartment_ShortName(departmentId);
+		return professorRepository.findByDepartmentShortName(departmentId);
 	}
 
 	@Override
 	public Professor getById(Integer professorId) {
 		return professorRepository.findById(professorId).orElseThrow(()->new ProfessorNotFoundException("Professor not found"));
+	}
+
+	@Override
+	@Transactional
+	public Professor setProperties(Integer professorId, String email, String phone) {
+		Professor byId = getById(professorId);
+		if (email!=null) byId.setEmail(email);
+		if (phone!=null) byId.setPhone(phone);
+		return byId;
 	}
 }
