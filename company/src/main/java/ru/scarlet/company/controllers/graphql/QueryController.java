@@ -1,4 +1,4 @@
-package ru.scarlet.company.controllers;
+package ru.scarlet.company.controllers.graphql;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
