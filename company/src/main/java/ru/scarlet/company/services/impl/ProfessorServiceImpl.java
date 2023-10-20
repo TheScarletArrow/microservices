@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.scarlet.company.dtos.ProfessorDtoRequest;
 import ru.scarlet.company.dtos.ProfessorDtoResponse;
 import ru.scarlet.company.entities.Professor;
+import ru.scarlet.company.excpetions.NotFound.ExpertiseNotFoundException;
 import ru.scarlet.company.excpetions.NotFound.ProfessorNotFoundException;
 import ru.scarlet.company.mappers.ProfessorsMapper;
 import ru.scarlet.company.repository.ExpertiseRepository;
@@ -23,7 +24,7 @@ public class ProfessorServiceImpl implements ProfessorService {
 	@Override
 	public Professor add(ProfessorDtoRequest dto) {
 		Professor professor = professorsMapper.toEntity(dto);
-		professor.setExpertise(expertiseRepository.findByName(dto.getExpertise().getName()));
+		professor.setExpertise(expertiseRepository.findById(dto.getExpertise()).orElseThrow(()->new ExpertiseNotFoundException("Expertise not found")));
 		return professorRepository.save(professor);
 	}
 
@@ -33,8 +34,8 @@ public class ProfessorServiceImpl implements ProfessorService {
 	}
 
 	@Override
-	public List<Professor> getAllByDepartmentIdE(String departmentId) {
-		return professorRepository.findByDepartmentShortName(departmentId);
+	public List<Professor> getAllByDepartmentIdE(Long departmentId) {
+		return professorRepository.findByDepartmentOid(departmentId);
 	}
 
 	@Override

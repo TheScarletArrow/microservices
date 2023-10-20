@@ -2,6 +2,7 @@ package ru.scarlet.company.mappers;
 
 import java.util.List;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import ru.scarlet.company.dtos.ProfessorContactDetails;
 import ru.scarlet.company.dtos.ProfessorDtoCourse;
@@ -14,6 +15,7 @@ public interface ProfessorsMapper {
 
 	ProfessorDtoCourse toDto(Professor professor);
 
+	@Mapping(target = "expertise", source = "expertise", ignore = true)
 	Professor toEntity(ProfessorDtoRequest professorDtoCourse);
 
 	List<ProfessorDtoCourse> toDtoList(List<Professor> taughtByProfessors);

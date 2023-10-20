@@ -38,7 +38,7 @@ public class QueryController {
     List<Department> departments(){return departmentService.getAll();}
 
     @QueryMapping
-    List<Professor> professorsByDep(@Argument String departmentId){return professorService.getAllByDepartmentIdE(departmentId);}
+    List<Professor> professorsByDep(@Argument Long departmentId){return professorService.getAllByDepartmentIdE(departmentId);}
 
     @QueryMapping
     List<Course> coursesByDep(@Argument String department, @Argument Integer page,  @Argument Integer perPage){

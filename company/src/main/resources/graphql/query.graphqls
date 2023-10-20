@@ -9,7 +9,7 @@ type Query{
 
     courses: [Course]
 
-    professorsByDep (departmentId: String) : [Professor]
+    professorsByDep (departmentId: Int) : [Professor]
 
     coursesByDep(department: String, page: Int, perPage: Int) : [Course]
 

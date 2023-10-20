@@ -15,7 +15,8 @@ class CustomExceptionResolver : DataFetcherExceptionResolverAdapter() {
             ex is DeanNotFoundException ||
             ex is DepartmentNotFoundException ||
             ex is FacultyNotFoundException ||
-            ex is ProfessorNotFoundException
+            ex is ProfessorNotFoundException ||
+            ex is ExpertiseNotFoundException
             ) {
             GraphqlErrorBuilder.newError()
                 .errorType(ErrorType.NOT_FOUND)

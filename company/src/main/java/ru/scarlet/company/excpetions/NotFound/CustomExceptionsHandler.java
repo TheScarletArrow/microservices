@@ -29,5 +29,9 @@ public class CustomExceptionsHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<ErrorDetails> handleFacultyNotFoundException(HttpServletRequest request, FacultyNotFoundException ex){
 		return new ResponseEntity<>(new ErrorDetails(Instant.now().toEpochMilli(), request.getRequestURI(), ex.getMessage(), 404, MDC.get("CorrId")), HttpStatus.NOT_FOUND);
 	}
+	@ExceptionHandler(ExpertiseNotFoundException.class)
+	public ResponseEntity<ErrorDetails> handleExpertiseNotFoundException(HttpServletRequest request, ExpertiseNotFoundException ex){
+		return new ResponseEntity<>(new ErrorDetails(Instant.now().toEpochMilli(), request.getRequestURI(), ex.getMessage(), 404, MDC.get("CorrId")), HttpStatus.NOT_FOUND);
+	}
 
 }

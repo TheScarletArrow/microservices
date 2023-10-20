@@ -10,7 +10,7 @@ public interface ProfessorService {
 
     List<ProfessorDtoResponse> getAllByDepartmentId(String departmentId);
 
-    List<Professor> getAllByDepartmentIdE(String departmentId);
+    List<Professor> getAllByDepartmentIdE(Long departmentId);
 
     Professor getById(Integer professorId);
 

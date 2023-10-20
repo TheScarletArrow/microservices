@@ -10,7 +10,7 @@ data class ProfessorDtoRequest(
 
     val email: String,
 
-    val expertise: ExpertiseDto
+    val expertise: Long
 )
 
 data class ProfessorContactDetails(
