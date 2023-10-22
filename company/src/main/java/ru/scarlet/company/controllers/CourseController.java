@@ -30,7 +30,7 @@ public class CourseController {
 	}
 
 	@PostMapping("/department/{departmentId}/{courseId}")
-	private ResponseEntity<Void> addCourseForDepartment(@PathVariable String departmentId, @PathVariable Integer courseId) {
+	private ResponseEntity<Void> addCourseForDepartment(@PathVariable Integer departmentId, @PathVariable Integer courseId) {
 		courseService.addCourseByDepartmentId(departmentId, courseId);
 		return ResponseEntity.noContent().build();
 	}

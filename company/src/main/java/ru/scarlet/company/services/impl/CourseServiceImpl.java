@@ -81,8 +81,8 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	@Transactional
-	public void addCourseByDepartmentId(String departmentId, Integer courseId) {
-		Department department = departmentRepository.findByShortName(departmentId);
+	public void addCourseByDepartmentId(Integer departmentId, Integer courseId) {
+		Department department = departmentRepository.findById(departmentId).orElseThrow(()->new DepartmentNotFoundException(("Department not found")));
 
 		Course course = courseRepository.findById(courseId).orElseThrow(()->new CourseNotFoundException("Course not found"));
 		department.getTeachingCourses().add(course);
