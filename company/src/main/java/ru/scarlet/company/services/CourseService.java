@@ -27,4 +27,6 @@ public interface CourseService {
 	void deleteCourseByOid(Integer oid);
 
 	void setIsActive(Integer courseId, CourseActive active);
+
+	void deactivateCourse(Integer courseId);
 }

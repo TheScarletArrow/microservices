@@ -63,4 +63,10 @@ public class CourseController {
 		courseService.setIsActive(courseId, active);
 		return ResponseEntity.noContent().build();
 	}
+
+	@DeleteMapping("/{courseId}")
+	public ResponseEntity<Void> deactivateCourse(@PathVariable Integer courseId) {
+		courseService.deactivateCourse(courseId);
+		return ResponseEntity.noContent().build();
+	}
 }

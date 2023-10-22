@@ -133,4 +133,12 @@ public class CourseServiceImpl implements CourseService {
 		var courseByIdE = getCourseByIdE(courseId);
 		courseByIdE.setCourseActive(active);
 	}
+
+	@Override
+	@Transactional
+	public void deactivateCourse(Integer courseId) {
+		var courseByIdE = getCourseByIdE(courseId);
+		courseByIdE.setCourseActive(CourseActive.DEACTIVATED);
+
+	}
 }
