@@ -16,4 +16,7 @@ interface CourseRepository : JpaRepository<Course?, Int?> {
 
     @Query("select p.teachingCourses from Professor p")
     fun getCoursesByProfessorId(professorId: Int?): List<Course?>?
+
+    @Query("select exists (select c from Course c where c.courseCode=:courseCode)")
+    fun existsByCourseCode(courseCode: String) : Boolean
 }

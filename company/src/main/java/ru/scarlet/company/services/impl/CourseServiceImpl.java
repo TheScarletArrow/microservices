@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,9 +18,11 @@ import ru.scarlet.company.dtos.ProfessorContactDetails;
 import ru.scarlet.company.entities.Course;
 import ru.scarlet.company.entities.Department;
 import ru.scarlet.company.entities.Professor;
+import ru.scarlet.company.enums.CourseActive;
 import ru.scarlet.company.excpetions.NotFound.CourseNotFoundException;
 import ru.scarlet.company.excpetions.NotFound.DepartmentNotFoundException;
 import ru.scarlet.company.excpetions.NotFound.ProfessorNotFoundException;
+import ru.scarlet.company.excpetions.alreadyExists.CourseAlreadyExistsException;
 import ru.scarlet.company.mappers.CourseMapper;
 import ru.scarlet.company.mappers.ProfessorsMapper;
 import ru.scarlet.company.repository.CourseRepository;
@@ -71,6 +74,7 @@ public class CourseServiceImpl implements CourseService {
 			List<Professor> allById = professorRepository.findAllById(courseRequest.getProfessors());
 			course.setTaughtByProfessors(allById);
 		} else course.setTaughtByProfessors(new ArrayList<>());
+		if (courseRepository.existsByCourseCode(courseRequest.getCourseCode())) throw new CourseAlreadyExistsException("Course "+ courseRequest.getCourseCode());
 		Course save = courseRepository.save(course);
 		return new CourseResponse(save.getOid(),courseRequest.getCourseCode(), courseRequest.getCourseName(),
 				new DepartmentDtoCourse(course.getDepartment().getShortName(), course.getDepartment().getName()), save.getTaughtByProfessors().stream().map(professorsMapper::toDto).collect(Collectors.toList()));
@@ -112,5 +116,21 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public Course getCourseByIdE(Integer courseId) {
 		return courseRepository.findById(courseId).orElseThrow(()->new CourseNotFoundException("Course not found"));
+	}
+
+	@Override
+	public Boolean courseCodeExists(String courseCode) {
+		return courseRepository.existsByCourseCode(courseCode);
+	}
+
+	@Override
+	public void deleteCourseByOid(Integer oid) {
+		courseRepository.deleteById(oid);
+	}
+
+	@Override
+	public void setIsActive(Integer courseId, CourseActive active) {
+		var courseByIdE = getCourseByIdE(courseId);
+		courseByIdE.setCourseActive(active);
 	}
 }

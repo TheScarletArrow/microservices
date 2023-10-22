@@ -1,4 +1,4 @@
-package ru.scarlet.company.excpetions.NotFound;
+package ru.scarlet.company.excpetions;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.scarlet.company.dtos.ErrorDetails;
+import ru.scarlet.company.excpetions.NotFound.*;
+import ru.scarlet.company.excpetions.alreadyExists.CourseAlreadyExistsException;
 
 @ControllerAdvice
 public class CustomExceptionsHandler extends ResponseEntityExceptionHandler {
@@ -34,4 +36,7 @@ public class CustomExceptionsHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(new ErrorDetails(Instant.now().toEpochMilli(), request.getRequestURI(), ex.getMessage(), 404, MDC.get("CorrId")), HttpStatus.NOT_FOUND);
 	}
 
-}
+	@ExceptionHandler(CourseAlreadyExistsException.class)
+	public ResponseEntity<ErrorDetails> handleCourseAlreadyExistsException(HttpServletRequest request, CourseAlreadyExistsException ex){
+		return new ResponseEntity<>(new ErrorDetails(Instant.now().toEpochMilli(), request.getRequestURI(), ex.getMessage(), 400, MDC.get("CorrId")), HttpStatus.NOT_FOUND);
+	}}

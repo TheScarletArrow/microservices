@@ -5,15 +5,10 @@ import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.scarlet.company.dtos.CourseRequest;
 import ru.scarlet.company.dtos.CourseResponse;
+import ru.scarlet.company.enums.CourseActive;
 import ru.scarlet.company.services.CourseService;
 
 @RestController
@@ -55,6 +50,17 @@ public class CourseController {
 	@PostMapping("/{courseId}/professor/{professorId}")
 	public ResponseEntity<Void> addProfessorToCourse(@PathVariable Integer professorId, @PathVariable Integer courseId){
 		courseService.addProfessor(courseId, professorId);
+		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/courseCode/{courseCode}/exists")
+	public ResponseEntity<Boolean> courseCodeExists(@PathVariable String courseCode){
+		return ResponseEntity.ok(courseService.courseCodeExists(courseCode));
+	}
+
+	@PatchMapping("/{courseId}/active/{active}")
+	public ResponseEntity<?> setIsActive(@PathVariable CourseActive active, @PathVariable Integer courseId){
+		courseService.setIsActive(courseId, active);
 		return ResponseEntity.noContent().build();
 	}
 }
