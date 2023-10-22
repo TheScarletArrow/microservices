@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -129,6 +128,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+	@Transactional
 	public void setIsActive(Integer courseId, CourseActive active) {
 		var courseByIdE = getCourseByIdE(courseId);
 		courseByIdE.setCourseActive(active);
