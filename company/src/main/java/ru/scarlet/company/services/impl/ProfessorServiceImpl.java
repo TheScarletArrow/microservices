@@ -1,5 +1,6 @@
 package ru.scarlet.company.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
@@ -25,6 +26,7 @@ public class ProfessorServiceImpl implements ProfessorService {
 	public Professor add(ProfessorDtoRequest dto) {
 		Professor professor = professorsMapper.toEntity(dto);
 		professor.setExpertise(expertiseRepository.findById(dto.getExpertise()).orElseThrow(()->new ExpertiseNotFoundException("Expertise not found")));
+		professor.setTeachingCourses(new ArrayList<>());
 		return professorRepository.save(professor);
 	}
 
