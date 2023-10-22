@@ -1,6 +1,8 @@
 package ru.scarlet.company.entities;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 import lombok.Getter;
@@ -35,7 +37,7 @@ public class Department {
 			joinColumns = @JoinColumn(name = "department_id"),
 			inverseJoinColumns = @JoinColumn(name = "course_id")
 	)
-	private List<Course> teachingCorses;
+	private List<Course> teachingCourses = new ArrayList<>();
 
 //	@ManyToMany
 //			@JoinTable(name = "department_professors",

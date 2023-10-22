@@ -85,7 +85,7 @@ public class CourseServiceImpl implements CourseService {
 		Department department = departmentRepository.findByShortName(departmentId);
 
 		Course course = courseRepository.findById(courseId).orElseThrow(()->new CourseNotFoundException("Course not found"));
-		department.getTeachingCorses().add(course);
+		department.getTeachingCourses().add(course);
 		course.setDepartment(department);
 	}
 
