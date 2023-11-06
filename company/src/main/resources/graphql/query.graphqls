@@ -20,6 +20,8 @@ type Query{
     expertise: [Expertise]
 
     courseById(courseId: Int): Course
+
+    professorsByCourseId(courseId: Int): [Professor]
 }
 
 type Mutation {

@@ -15,7 +15,7 @@ public interface ProfessorsMapper {
 
 	ProfessorDtoCourse toDto(Professor professor);
 
-	@Mapping(target = "expertise", source = "expertise", ignore = true)
+	@Mapping(target = "expertise", source = "expertiseId", ignore = true)
 	Professor toEntity(ProfessorDtoRequest professorDtoCourse);
 
 	List<ProfessorDtoCourse> toDtoList(List<Professor> taughtByProfessors);

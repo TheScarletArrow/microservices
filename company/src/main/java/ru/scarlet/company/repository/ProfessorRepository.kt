@@ -13,4 +13,7 @@ interface ProfessorRepository : JpaRepository<Professor?, Int?> {
     @Query("select p from Professor p where p.department.oid=:id")
     fun findByDepartmentOid(id: Long?): List<Professor?>
 
+
+    @Query("select c.taughtByProfessors from Course c where c.oid=:courseId")
+    fun findAllByCourseId(courseId: Int): List<Professor>
 }

@@ -20,6 +20,7 @@ const val SESSION_QUEUE = "sessionEvents"
 const val POST_QUEUE = "postEvents"
 const val COMMENT_QUEUE = "commentEvents"
 const val AUDIT_QUEUE = "auditEvents"
+const val MAIL_QUEUE = "mailEvents";
 
 const val NEW_CUSTOMER_ROUTING_KEY = "store.customer.created"
 const val NEW_ORDER_ROUTING_KEY = "store.order.created"
@@ -27,6 +28,8 @@ const val NEW_SESSION_ROUTING_KEY = "store.session.created"
 const val NEW_POST_ROUTING_KEY = "store.post.created"
 const val NEW_COMMENT_ROUTING_KEY = "store.comment.created"
 const val NEW_AUDIT_ROUTING_KEY = "audit.event.log"
+const val NEW_MAIL_ROUTING_KEY = "mail.welcome"
+
 @Configuration
 open class RabbitConfiguration {
 
@@ -69,6 +72,11 @@ open class RabbitConfiguration {
     @Bean(COMMENT_QUEUE)
     open fun commentQueue(): Queue {
         return Queue(COMMENT_QUEUE, true)
+    }
+
+    @Bean(MAIL_QUEUE)
+    open fun mailQueue(): Queue {
+        return Queue(MAIL_QUEUE, true)
     }
     @Bean
     open fun customerRelations(@Qualifier(CUSTOMER_RELATIONS_QUEUE) queue: Queue, eventExchange: TopicExchange): Binding {
@@ -122,7 +130,13 @@ open class RabbitConfiguration {
             .to(eventExchange)
             .with("store.#")
     }
-
+    @Bean
+    open fun newMail(@Qualifier(MAIL_QUEUE) queue: Queue, eventExchange: TopicExchange): Binding {
+        return BindingBuilder
+            .bind(queue)
+            .to(eventExchange)
+            .with("mail.#")
+    }
     @Bean
     open fun jackson2JsonMessageConverter(): Jackson2JsonMessageConverter {
         return Jackson2JsonMessageConverter()

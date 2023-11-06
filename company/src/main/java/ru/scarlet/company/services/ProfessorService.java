@@ -15,4 +15,6 @@ public interface ProfessorService {
     Professor getById(Integer professorId);
 
     Professor setProperties(Integer professorId, String email, String phone);
+
+    List<Professor> getAllByCourseId(Integer courseId);
 }

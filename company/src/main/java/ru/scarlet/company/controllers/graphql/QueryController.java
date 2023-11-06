@@ -5,8 +5,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
-import ru.scarlet.company.entities.*;
-import ru.scarlet.company.services.*;
+import ru.scarlet.company.entities.Course;
+import ru.scarlet.company.entities.Dean;
+import ru.scarlet.company.entities.Department;
+import ru.scarlet.company.entities.Expertise;
+import ru.scarlet.company.entities.Faculty;
+import ru.scarlet.company.entities.Professor;
+import ru.scarlet.company.services.CourseService;
+import ru.scarlet.company.services.DeanService;
+import ru.scarlet.company.services.DepartmentService;
+import ru.scarlet.company.services.ExpertiseService;
+import ru.scarlet.company.services.FacultyService;
+import ru.scarlet.company.services.ProfessorService;
 
 @Controller
 @RequiredArgsConstructor
@@ -64,4 +74,7 @@ public class QueryController {
     Course courseById(@Argument Integer courseId){
         return courseService.getCourseByIdE(courseId);
     }
+
+    @QueryMapping
+    List<Professor> professorsByCourseId(@Argument Integer courseId){ return professorService.getAllByCourseId(courseId);}
 }

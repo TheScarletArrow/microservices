@@ -28,7 +28,7 @@ public class Professor {
 
 	private String email;
 
-	private Boolean enableNotifyByMail = Boolean.TRUE;
+	private Boolean enableNotifyByMail = true;
 
 	@ManyToOne
 	@JoinColumn(name = "department_oid")
