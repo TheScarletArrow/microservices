@@ -12,7 +12,7 @@ import ru.scarlet.salary.dto.Tokens;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-@FeignClient(value = "auth-service", url = "${application.config.auth-url}")
+@FeignClient(value = "auth-service")
 public interface AuthClient {
     @PostMapping(value = "tokens/generate", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
     ResponseEntity<Tokens> getTokens(@RequestBody SignInRequest signInRequest);
