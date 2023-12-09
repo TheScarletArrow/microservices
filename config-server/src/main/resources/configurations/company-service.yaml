@@ -8,6 +8,9 @@ eureka:
 server:
   port: 8070
 spring:
+  info:
+    git:
+      mode: full
   application:
     name: company-service
   rabbitmq:
@@ -40,7 +43,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,prometheus
+        include: health,prometheus, info, *
+  endpoint:
+    info:
+      enabled: true
   metrics:
     export:
       prometheus:
