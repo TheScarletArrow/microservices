@@ -1,7 +1,5 @@
 package ru.scarlet.company.services.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.scarlet.company.dtos.DeanGetResponse;
@@ -14,6 +12,9 @@ import ru.scarlet.company.mappers.DeanMapper;
 import ru.scarlet.company.repository.DeanRepository;
 import ru.scarlet.company.repository.FacultyRepository;
 import ru.scarlet.company.services.DeanService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class DeanServiceImpl implements DeanService {
 		dean.setFirstName(deanRequest.getFirstName());
 		dean.setLastName(deanRequest.getLastName());
 		dean.setPatronymic(deanRequest.getPatronymic());
-
+		dean.setTeachingCourses(new ArrayList<>());
 		return deanRepository.save(dean);
 	}
 
@@ -55,5 +56,11 @@ public class DeanServiceImpl implements DeanService {
 	@Override
 	public Dean getDeanById(Integer id) {
 		return deanRepository.findById(id).orElseThrow(()->new DeanNotFoundException("Dean not found with id "+id));
+	}
+
+	@Override
+	public DeanGetResponse getDeanDtoById(Integer id) {
+		DeanGetResponse getResponse = deanMapper.toGetResponse(getDeanById(id));
+		return getResponse;
 	}
 }
