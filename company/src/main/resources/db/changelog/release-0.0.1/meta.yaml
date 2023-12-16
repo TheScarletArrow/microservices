@@ -1,4 +1,4 @@
 databaseChangeLog:
   - include:
-      file: "/meta/dean.yaml"
+      file: "/meta/create-tables.yaml"
       relativeToChangelogFile: true
