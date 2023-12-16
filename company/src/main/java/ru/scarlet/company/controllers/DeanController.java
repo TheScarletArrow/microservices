@@ -1,16 +1,15 @@
 package ru.scarlet.company.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.scarlet.company.dtos.DeanGetResponse;
 import ru.scarlet.company.dtos.DeanRequest;
 import ru.scarlet.company.entities.Dean;
 import ru.scarlet.company.services.DeanService;
+
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,4 +28,9 @@ public class DeanController {
 //	public ResponseEntity<List<DeanGetResponse>> getAll(){
 //		return ResponseEntity.ok(deanService.getAll());
 //	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<DeanGetResponse> getDeanById(@PathVariable Integer id){
+		return ResponseEntity.ok(deanService.getDeanDtoById(id));
+	}
 }

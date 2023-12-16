@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: anton
+      changes:
+        - insert:
+            tableName: dean
+            columns:
+              - column:
+                  name: first_name
+                  value: "Антон"
+              - column:
+                  name: last_name
+                  value: "Юрков"
+              - column:
+                  name: patronymic
+                  value: "Дмитриевич"

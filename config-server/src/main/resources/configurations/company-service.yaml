@@ -18,12 +18,16 @@ spring:
     port: 5672
     username: guest
     password: guest
-
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/companies
+    url: jdbc:postgresql://localhost:5433/postgres
     username: postgres
     password: postgres
+  liquibase:
+    enabled: true
+    change-log: db/changelog/changelog-master.yaml
+#    default-schema: companies
+#    liquibase-schema: companies
   jpa:
     hibernate:
       ddl-auto: update

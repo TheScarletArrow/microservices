@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0
+      author: admin
+      changes:
+        - sqlFile:
+            splitStatements: true
+            relativeToChangelogFile: true
+            path: /create-tables.sql

@@ -13,4 +13,6 @@ public interface DeanService {
 	List<Dean> getAllEntity();
 
 	Dean getDeanById(Integer id);
+
+	DeanGetResponse getDeanDtoById(Integer id);
 }
