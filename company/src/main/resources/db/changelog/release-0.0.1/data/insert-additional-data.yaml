@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: anton
+      changes:
+        - insert:
+            tableName: faculty
+            columns:
+              - column:
+                  name: name
+                  value: Факультет №1
+              - column:
+                  name: short_name
+                  value: Фак №1
+              - column:
+                  name: dean_oid
+                  value: 1
+        - insert:
+            tableName: department
+            columns:
+              - column:
+                  name: short_name
+                  value: Один
+              - column:
+                   name: name
+                   value: Кафедра №1
+              - column:
+                  name: faculty_id
+                  value: 1
+        - insert:
+            tableName: expertise
+            columns:
+              - column:
+                  name: short_name
+                  value: к.т.н.
+              - column:
+                  name: name
+                  value: Кандидат технических наук
+        - insert:
+            tableName: professor
+            columns:
+              - column:
+                  name: phone
+                  value: 123456789
+              - column:
+                  name: name
+                  value: Юрков Антон Дмитриевич
+              - column:
+                  name: email
+                  value: aaa@aaa.aaa
+              - column:
+                  name: department_oid
+                  value: 1
+              - column:
+                  name: expertise_id
+                  value: 1
+              - column:
+                  name: enable_notify_by_phone
+                  value: false
+              - column:
+                  name: enable_notify_by_mail
+                  value: false
