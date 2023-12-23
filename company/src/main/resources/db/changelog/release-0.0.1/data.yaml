@@ -5,3 +5,6 @@ databaseChangeLog:
   - include:
       file: "/data/insert-additional-data.yaml"
       relativeToChangelogFile: true
+  - include:
+        file: "/data/insert-additional-data-2.yaml"
+        relativeToChangelogFile: true

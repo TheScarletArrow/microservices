@@ -29,7 +29,7 @@ import ru.scarlet.company.repository.DepartmentRepository;
 import ru.scarlet.company.repository.ProfessorRepository;
 import ru.scarlet.company.services.CourseService;
 
-import static ru.scarlet.company.configs.RabbitConfigurationKt.NEW_POST_ROUTING_KEY;
+import static ru.scarlet.company.configs.RabbitConfigurationKt.NEW_MAIL_ROUTING_KEY;
 
 
 @Service
@@ -104,7 +104,7 @@ public class CourseServiceImpl implements CourseService {
 		professor.getTeachingCourses().add(course);
 
 		ProfessorContactDetails contactDetails = professorsMapper.toContactDetails(professor);
-		rabbitTemplate.convertAndSend(NEW_POST_ROUTING_KEY, contactDetails);
+		rabbitTemplate.convertAndSend(NEW_MAIL_ROUTING_KEY, contactDetails);
 	}
 
 	@Override
