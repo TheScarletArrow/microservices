@@ -27,6 +27,15 @@ services:
 #      POSTGRES_DB: companies
     ports:
       - "5433:5432"
+  notifications:
+    image: postgres
+    container_name: notifications
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    #      POSTGRES_DB: companies
+    ports:
+      - "5434:5432"
   authdb:
     image: postgres
     container_name: authdb
