@@ -1,8 +1,7 @@
 package ru.scarlet.company.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpServletRequest;
-import java.net.URI;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +9,9 @@ import ru.scarlet.company.dtos.CourseRequest;
 import ru.scarlet.company.dtos.CourseResponse;
 import ru.scarlet.company.enums.CourseActive;
 import ru.scarlet.company.services.CourseService;
+
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/university/courses")
@@ -48,7 +50,7 @@ public class CourseController {
 	}
 
 	@PostMapping("/{courseId}/professor/{professorId}")
-	public ResponseEntity<Void> addProfessorToCourse(@PathVariable Integer professorId, @PathVariable Integer courseId){
+	public ResponseEntity<Void> addProfessorToCourse(@PathVariable Integer professorId, @PathVariable Integer courseId) throws JsonProcessingException {
 		courseService.addProfessor(courseId, professorId);
 		return ResponseEntity.noContent().build();
 	}

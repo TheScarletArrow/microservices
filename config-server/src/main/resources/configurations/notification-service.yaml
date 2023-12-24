@@ -26,6 +26,16 @@ spring:
     port: 5672
     username: guest
     password: guest
+  mail:
+    host: smtp.yandex.ru
+    port: 587
+    username: testskarlet@yandex.ru
+    protocol: smtp
+    password: rbqjdmtkagrhhqor
+    properties:
+      "mail.transport.protocol": smtp
+      "mail.smtp.auth": true
+      "mail.smtp.starttls.enable": true
 
 management:
   tracing:

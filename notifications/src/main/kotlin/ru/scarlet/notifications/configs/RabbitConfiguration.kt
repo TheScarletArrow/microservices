@@ -10,10 +10,11 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import ru.scarlet.notifications.Constants
 import ru.scarlet.notifications.listener.Listener
+import ru.scarlet.notifications.service.impl.EmailSenderServiceImpl
 
 
 @Configuration
-class RabbitConfiguration {
+class RabbitConfiguration(private val emailSenderServiceImpl: EmailSenderServiceImpl) {
 
     @Bean
     fun rabbitTemplate(connectionFactory: ConnectionFactory,
@@ -33,7 +34,7 @@ class RabbitConfiguration {
         val simpleMessageListenerContainer = SimpleMessageListenerContainer()
         simpleMessageListenerContainer.connectionFactory = connectionFactory!!
         simpleMessageListenerContainer.setQueues(queue())
-        simpleMessageListenerContainer.setMessageListener(Listener())
+        simpleMessageListenerContainer.setMessageListener(Listener(emailSenderServiceImpl))
         return simpleMessageListenerContainer
     }
 
