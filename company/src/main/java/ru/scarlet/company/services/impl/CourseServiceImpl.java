@@ -1,19 +1,13 @@
 package ru.scarlet.company.services.impl;
 
 import jakarta.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.scarlet.company.dtos.CourseRequest;
-import ru.scarlet.company.dtos.CourseResponse;
-import ru.scarlet.company.dtos.DepartmentDtoCourse;
-import ru.scarlet.company.dtos.ProfessorContactDetails;
+import ru.scarlet.company.dtos.*;
 import ru.scarlet.company.entities.Course;
 import ru.scarlet.company.entities.Department;
 import ru.scarlet.company.entities.Professor;
@@ -29,7 +23,11 @@ import ru.scarlet.company.repository.DepartmentRepository;
 import ru.scarlet.company.repository.ProfessorRepository;
 import ru.scarlet.company.services.CourseService;
 
-import static ru.scarlet.company.configs.RabbitConfigurationKt.NEW_POST_ROUTING_KEY;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static ru.scarlet.company.configs.RabbitConfigurationKt.NEW_MAIL_ROUTING_KEY;
 
 
 @Service
@@ -103,8 +101,9 @@ public class CourseServiceImpl implements CourseService {
 		course.getTaughtByProfessors().add(professor);
 		professor.getTeachingCourses().add(course);
 
-		ProfessorContactDetails contactDetails = professorsMapper.toContactDetails(professor);
-		rabbitTemplate.convertAndSend(NEW_POST_ROUTING_KEY, contactDetails);
+		ProfessorContactDetails contactDetails = new ProfessorContactDetails(professor.getPhone(), professor.getEnableNotifyByPhone(), professor.getEnableNotifyByMail(), professor.getEmail(), new CourseShort(course.getCourseName(), course.getCourseCode()));
+
+		rabbitTemplate.convertAndSend(NEW_MAIL_ROUTING_KEY, (contactDetails));
 	}
 
 	@Override

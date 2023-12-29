@@ -15,3 +15,8 @@ data class DepartmentDtoCourse(val shortName: String, val name: String)
 data class ProfessorDtoCourse @JsonCreator constructor(val name: String, val expertise: ExpertiseDto) {}
 
 data class ExpertiseDto @JsonCreator constructor(val name: String, val shortName: String)
+
+data class CourseShort(
+    val courseName: String,
+    val courseCode: String
+)
