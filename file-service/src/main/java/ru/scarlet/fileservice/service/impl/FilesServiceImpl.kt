@@ -53,7 +53,27 @@ class FilesServiceImpl : FilesService {
         val resource = FileSystemResource(filePath.toAbsolutePath())
 
         if (resource.exists()) return resource
-        else throw Exception()
+        else throw Exception("File not found ${filePath.toAbsolutePath()}")
+    }
+
+    override fun deleteFile(oguid: UUID) {
+        val path = getFilePath(oguid)
+        try {
+            Files.delete(path)
+        } catch (e: IOException){
+
+        }
+    }
+
+    private fun getFilePath(oguid: UUID): Path {
+        val storageFile = StorageFile()
+        storageFile.id = oguid
+        val arrayPath = System.getProperty("user.home") + calcStoragePath(storageFile.id)
+        storageFile.diskArray = arrayPath
+        storageFile.path = formPath(oguid)
+        val fileName = getFileInDir(storageFile.actualDirectoryPath)
+
+        return Paths.get(fileName)
     }
 
     private fun getFileInDir(dirPath: Path): String {
@@ -74,7 +94,7 @@ class FilesServiceImpl : FilesService {
 
     private fun getStorageFile(multipartFile: MultipartFile?): StorageFile {
         if (multipartFile == null) {
-            throw IllegalArgumentException("")
+            throw IllegalArgumentException("Must not be null")
         }
         val storageFile: StorageFile =
             prepareFile(multipartFile.originalFilename, MimeType.valueOf(multipartFile.contentType))
@@ -95,7 +115,7 @@ class FilesServiceImpl : FilesService {
     }
 
     private fun calcStoragePath(id: UUID?) : String {
-        return if (id!= null) StringBuilder(15).append("/files").append("/storage-").append(id.toString().substring(0,3)).toString() else throw Exception()
+        return if (id!= null) StringBuilder(15).append("/files").append("/storage-").append(id.toString().substring(0,3)).toString() else throw Exception("Something went wrong")
     }
 
     private fun prepareFile(filename: String?, mime: MimeType?): StorageFile {

@@ -9,4 +9,5 @@ interface FilesService {
 
     fun addFile(multipartFile: MultipartFile): StorageFile
     fun loadFile(oguid: UUID): Resource
+    fun deleteFile(oguid: UUID)
 }

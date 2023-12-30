@@ -1,6 +1,7 @@
 package ru.scarlet.fileservice.controller
 
 import jakarta.servlet.http.HttpServletRequest
+import org.slf4j.LoggerFactory
 import org.springframework.core.io.Resource
 import org.springframework.http.*
 import org.springframework.web.bind.annotation.*
@@ -16,8 +17,14 @@ import kotlin.text.Charsets.UTF_8
 @RequestMapping("/api/v1/files")
 class FilesController(private val filesService: FilesService) {
 
+    companion object{
+        @Suppress("JAVA_CLASS_ON_COMPANION")
+        @JvmStatic
+        private val logger = LoggerFactory.getLogger(javaClass.enclosingClass)
+    }
     @PostMapping("/")
     fun addFile(@RequestParam("file") multipartFile: MultipartFile): ResponseEntity<StorageFile> {
+        logger.info("file service addfile")
         val file = filesService.addFile(multipartFile)
 
         return ResponseEntity.ok(file)
@@ -50,5 +57,11 @@ class FilesController(private val filesService: FilesService) {
             .header(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, listOf("origin", "x-requested-with", "content-type", "accept-ranges").joinToString(", "))
             .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, listOf("accept-ranges").joinToString(", "))
             .body(resource)
+    }
+
+    @DeleteMapping("/{oguid}")
+    fun deleteFile(@PathVariable oguid: UUID):ResponseEntity<Void>{
+        filesService.deleteFile(oguid)
+        return ResponseEntity.noContent().build()
     }
 }
