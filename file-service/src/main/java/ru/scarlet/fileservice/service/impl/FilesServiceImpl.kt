@@ -58,11 +58,7 @@ class FilesServiceImpl : FilesService {
 
     override fun deleteFile(oguid: UUID) {
         val path = getFilePath(oguid)
-        try {
             Files.delete(path)
-        } catch (e: IOException){
-
-        }
     }
 
     private fun getFilePath(oguid: UUID): Path {
@@ -86,10 +82,14 @@ class FilesServiceImpl : FilesService {
                     return result[0]
                 }
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
+        } catch (e: NoSuchFileException) {
+            println("no file found")
+            println(e.message)
+        } catch (e: IOException){
+            println("excetion IOException")
+            println(e.message)
         }
-        throw Exception("FILE NOT FOUND")
+        throw IOException("FILE NOT FOUND") //fixme for FileMotFoundException
     }
 
     private fun getStorageFile(multipartFile: MultipartFile?): StorageFile {
@@ -105,11 +105,8 @@ class FilesServiceImpl : FilesService {
 
         val path = storageFile.actualFilePath
         if (!Files.exists(path))  {
-            try{
-                val dirPath = Files.createDirectories(storageFile.actualDirectoryPath)
-            } catch (e: IOException){
+                Files.createDirectories(storageFile.actualDirectoryPath)
 
-            }
         }
         return storageFile
     }
