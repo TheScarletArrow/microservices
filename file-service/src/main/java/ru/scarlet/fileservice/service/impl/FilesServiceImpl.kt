@@ -95,7 +95,7 @@ class FilesServiceImpl : FilesService {
     }
 
     private fun calcStoragePath(id: UUID?) : String {
-        return if (id!= null) StringBuilder(12).append("/files").append("/storage-").append(id.toString().substring(0,3)).toString() else throw Exception()
+        return if (id!= null) StringBuilder(15).append("/files").append("/storage-").append(id.toString().substring(0,3)).toString() else throw Exception()
     }
 
     private fun prepareFile(filename: String?, mime: MimeType?): StorageFile {
