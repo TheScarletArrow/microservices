@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.scarlet.company.client.AuthClient;
 import ru.scarlet.company.client.FileServiceClient;
 import ru.scarlet.company.dtos.ErrorDetails;
+import ru.scarlet.company.dtos.UsernameFromToken;
 import ru.scarlet.company.excpetions.Null.HeaderNullException;
 import ru.scarlet.company.services.FileService;
 
@@ -33,7 +34,7 @@ public class FileController {
     private FileService fileService;
 
     @PostMapping("/")
-    ResponseEntity<?> addFile(@RequestParam("file") MultipartFile multipartFile, @RequestHeader String authToken){
+    ResponseEntity<?> addFile(@RequestParam("file") MultipartFile multipartFile, @RequestHeader String authToken, HttpServletRequest request){
         if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
             throw new HeaderNullException("Header authToken is null");
         }
@@ -41,14 +42,21 @@ public class FileController {
 
         var file = fileServiceClient.addFile(multipartFile);
         log.info("file addded");
-        String username = authClient.getUsername(authToken).getBody().getUsername();
-        log.info(username);
-        fileService.save(file.getBody(), username);
-        return file;
+        ResponseEntity<UsernameFromToken> username = authClient.getUsername(authToken);
+        if (username.getStatusCode().is2xxSuccessful()) {
+            fileService.save(file.getBody(), username.getBody().getUsername());
+            return file;
+        } else return ResponseEntity.badRequest().body(
+                new ErrorDetails(Instant.now().toEpochMilli(),
+                        request.getRequestURI(), "Not found",
+                        400, MDC.get("CorrId")));
     }
 
     @GetMapping("/{oguid}")
-    ResponseEntity<?> getFile(@PathVariable UUID oguid, HttpServletRequest request){
+    ResponseEntity<?> getFile(@PathVariable UUID oguid, HttpServletRequest request, @RequestHeader String authToken){
+        if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
+            throw new HeaderNullException("Header authToken is null");
+        }
         ResponseEntity<Resource> file = fileServiceClient.getFile(oguid);
         if (file.getStatusCode().is2xxSuccessful())
             return file;
