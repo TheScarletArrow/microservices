@@ -9,4 +9,5 @@ interface TokenService {
 
     fun userExists(token: String): Boolean
     fun generateTokens(request: SignInRequest, httpServletRequest: HttpServletRequest): Tokens
+    fun validateToken(username: String, token: String): Boolean?
 }

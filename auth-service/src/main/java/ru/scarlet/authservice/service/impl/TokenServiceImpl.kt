@@ -96,4 +96,10 @@ class TokenServiceImpl(
         tokens["refresh_token"] = refreshToken
         return Tokens(accessToken = AccessToken(accessToken), refreshToken = RefreshToken(refreshToken))
     }
+
+    override fun validateToken(username: String, token: String) : Boolean{
+        val get: String? = redisTemplate.opsForValue().get(username+"_ACCESS")
+
+        return get.equals(token)
+    }
 }

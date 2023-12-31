@@ -22,6 +22,8 @@ public class FileData {
 
     private Instant created;
 
+    private String createdBy;
+
     private Long size;
 
     private String fileName;
@@ -31,4 +33,10 @@ public class FileData {
     private String diskArray;
 
     private String mimeType;
+
+    private Boolean isDeleted;
+
+    private Instant deletedAt;
+
+    private String deletedBy;
 }
