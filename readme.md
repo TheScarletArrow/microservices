@@ -15,3 +15,5 @@ Used libraries, technologies:
 - Grafana
 - Feign Client (Netflix OpenFeign)
 - Golang for testing
+- OpenTelemetry
+- Jaeger
