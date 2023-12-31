@@ -149,7 +149,7 @@ open class RabbitConfiguration {
         jackson2JsonMessageConverter: Jackson2JsonMessageConverter
     ): RabbitTemplate {
         val rabbitTemplate = RabbitTemplate(connectionFactory)
-        rabbitTemplate.exchange = eventExchange.name
+        rabbitTemplate.setExchange(eventExchange.name)
         rabbitTemplate.messageConverter = jackson2JsonMessageConverter
         return rabbitTemplate
     }

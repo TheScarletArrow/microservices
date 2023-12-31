@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.scarlet.company.controllers.DeanController;
 import ru.scarlet.company.dtos.DeanRequest;
 import ru.scarlet.company.entities.Dean;
+import ru.scarlet.company.entities.Faculty;
 import ru.scarlet.company.excpetions.NotFound.DeanNotFoundException;
 import ru.scarlet.company.services.DeanService;
 
@@ -61,8 +62,24 @@ public class DeanTests {
     }
 
     @Test
-    public void getDeanTest(){
+    public void getDeanTest() {
         Mockito.when(deanService.getDeanDtoById(-1)).thenThrow(DeanNotFoundException.class);
-        Assertions.assertThrows(DeanNotFoundException.class, ()->deanController.getDeanById(-1));
+        Assertions.assertThrows(DeanNotFoundException.class, () -> deanController.getDeanById(-1));
+    }
+
+    @Test
+    public void getDeanTestValid() {
+        Faculty faculty = Faculty.builder().name("fac1").build();
+        Dean dean = Dean.builder()
+                .oid(1)
+                .firstName("firstName")
+                .lastName("lastName")
+                .teachingCourses(new ArrayList<>())
+                .patronymic("patronymic")
+                .faculty(faculty).build();
+        faculty.setDean(dean);
+
+        Mockito.when(deanService.getDeanById(Mockito.anyInt())).thenReturn(dean);
+        Assertions.assertEquals(deanService.getDeanById(1), dean);
     }
 }

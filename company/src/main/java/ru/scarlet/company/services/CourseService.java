@@ -1,10 +1,11 @@
 package ru.scarlet.company.services;
 
-import java.util.List;
 import ru.scarlet.company.dtos.CourseRequest;
 import ru.scarlet.company.dtos.CourseResponse;
 import ru.scarlet.company.entities.Course;
 import ru.scarlet.company.enums.CourseActive;
+
+import java.util.List;
 
 public interface CourseService {
 	List<CourseResponse> getCoursesByDepartmentId(String departmentId, Integer page, Integer perPage);

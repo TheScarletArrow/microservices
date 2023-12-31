@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: anton
+      changes:
+        - insert:
+            tableName: course
+            columns:
+              - column:
+                  name: course_code
+                  value: "CRS1"
+              - column:
+                  name: course_name
+                  value: "Course#1"
+              - column:
+                  name: department_oid
+                  value: 1
+              - column:
+                  name: course_active
+                  value: 1

@@ -20,7 +20,9 @@ data class ProfessorContactDetails(
 
     val enableNotifyByMail: Boolean,
 
-    val email: String,
+    var email: String,
+
+    var course: CourseShort
 )
 
 data class ProfessorDtoResponse(
