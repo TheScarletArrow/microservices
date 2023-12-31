@@ -2,10 +2,9 @@ package ru.scarlet.company.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name = "Dean", indexes = {
@@ -13,6 +12,9 @@ import lombok.Setter;
 })
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 //декан
 public class Dean {
 	@Id
