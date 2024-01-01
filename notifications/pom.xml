@@ -25,12 +25,12 @@
         <amqp-client.version>5.18.0</amqp-client.version>
         <micrometer-registry-prometheus.version>1.11.2</micrometer-registry-prometheus.version>
         <swagger-annotations-jakarta.version>2.2.15</swagger-annotations-jakarta.version>
-        <springdoc-openapi-starter-webmvc-api.version>2.3.0</springdoc-openapi-starter-webmvc-api.version>
-        <springdoc-openapi-starter-webmvc-ui.version>2.3.0</springdoc-openapi-starter-webmvc-ui.version>
+        <springdoc.version>2.3.0</springdoc.version>
         <graphql-java-kickstart.version>15.0.0</graphql-java-kickstart.version>
         <mapstruct-processor.version>1.5.5.Final</mapstruct-processor.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <micrometer-registry-prometheus.version>1.11.2</micrometer-registry-prometheus.version>
+        <micrometer-tracing-bom.version>1.1.7</micrometer-tracing-bom.version>
     </properties>
     <dependencies>
         <dependency>
@@ -97,12 +97,12 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+            <version>${springdoc.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
-            <version>${springdoc-openapi-starter-webmvc-api.version}</version>
+            <version>${springdoc.version}</version>
         </dependency>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
@@ -141,7 +141,7 @@
             <dependency>
                 <groupId>io.micrometer</groupId>
                 <artifactId>micrometer-tracing-bom</artifactId>
-                <version>1.1.7</version>
+                <version>${micrometer-tracing-bom.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
