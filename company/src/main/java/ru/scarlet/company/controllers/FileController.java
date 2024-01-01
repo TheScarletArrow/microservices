@@ -40,10 +40,10 @@ public class FileController {
         }
         log.info("addFile ");
 
-        var file = fileServiceClient.addFile(multipartFile);
         log.info("file addded");
         ResponseEntity<UsernameFromToken> username = authClient.getUsername(authToken);
         if (username.getStatusCode().is2xxSuccessful()) {
+            var file = fileServiceClient.addFile(multipartFile);
             fileService.save(file.getBody(), username.getBody().getUsername());
             return file;
         } else return ResponseEntity.badRequest().body(
