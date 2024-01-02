@@ -11,11 +11,13 @@ import ru.scarlet.authservice.dto.AccessToken
 import ru.scarlet.authservice.dto.RefreshToken
 import ru.scarlet.authservice.dto.SignInRequest
 import ru.scarlet.authservice.dto.Tokens
+import ru.scarlet.authservice.filters.STRING_LENGTH
 import ru.scarlet.authservice.service.TokenService
 import ru.scarlet.authservice.service.UserService
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import kotlin.random.Random
 
 
 @Service
@@ -97,7 +99,14 @@ class TokenServiceImpl(
         return Tokens(accessToken = AccessToken(accessToken), refreshToken = RefreshToken(refreshToken))
     }
 
-    private fun redisKey(username: String) = username + "_ACCESS"
+    private fun redisKey(username: String) = "${username}_${randomString}_ACCESS"
+
+    private val charPool = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+
+    private val randomString = (1..STRING_LENGTH)
+        .map { Random.nextInt(0, charPool.size) }
+        .map(charPool::get)
+        .joinToString("")
 
     override fun validateToken(username: String, token: String) : Boolean{
         val get: String? = redisTemplate.opsForValue().get(redisKey(username))
