@@ -41,7 +41,7 @@ class TokenServiceImpl(
 
     override fun generateTokens(request: SignInRequest, httpServletRequest: HttpServletRequest): Tokens {
         println("generating tokens")
-        val accessTokenFromRedis = redisTemplate.opsForValue()[request.username + "_ACCESS"]
+        val accessTokenFromRedis = redisTemplate.opsForValue()[redisKey(request.username)]
         val roles = userService.getUserByUsername(request.username).roles
         val accessToken = if (accessTokenFromRedis == null) {
             val algorithm = Algorithm.HMAC256(jwtConfig.secretKey.toByteArray())
@@ -59,7 +59,7 @@ class TokenServiceImpl(
 //                .withIssuer(httpServletRequest.requestURL.toString())
 //                .sign(algorithm)
             redisTemplate.opsForValue().set(
-                request.username + "_ACCESS",
+                redisKey(request.username),
                 accessToken1,
                 Duration.ofDays(jwtConfig.accessTokenExpirationAfterDays!!)
             )
@@ -97,8 +97,10 @@ class TokenServiceImpl(
         return Tokens(accessToken = AccessToken(accessToken), refreshToken = RefreshToken(refreshToken))
     }
 
+    private fun redisKey(username: String) = username + "_ACCESS"
+
     override fun validateToken(username: String, token: String) : Boolean{
-        val get: String? = redisTemplate.opsForValue().get(username+"_ACCESS")
+        val get: String? = redisTemplate.opsForValue().get(redisKey(username))
 
         return get.equals(token)
     }
