@@ -14,6 +14,8 @@ import ru.scarlet.company.client.AuthClient;
 import ru.scarlet.company.client.FileServiceClient;
 import ru.scarlet.company.dtos.ErrorDetails;
 import ru.scarlet.company.dtos.UsernameFromToken;
+import ru.scarlet.company.entities.FileData;
+import ru.scarlet.company.excpetions.BadRequest.BadRequestExceprion;
 import ru.scarlet.company.excpetions.Null.HeaderNullException;
 import ru.scarlet.company.services.FileService;
 
@@ -57,6 +59,13 @@ public class FileController {
         if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
             throw new HeaderNullException("Header authToken is null");
         }
+        String username = getUsernameFromToken(authToken);
+        FileData fileFromDB = fileService.getById(oguid);
+        if (!fileFromDB.getCreatedBy().equals(username))
+            return ResponseEntity.badRequest().body(
+                    new ErrorDetails(Instant.now().toEpochMilli(),
+                            request.getRequestURI(), "FORBIDDEN",
+                            403, MDC.get("CorrId")));
         ResponseEntity<Resource> file = fileServiceClient.getFile(oguid);
         if (file.getStatusCode().is2xxSuccessful())
             return file;
@@ -73,13 +82,21 @@ public class FileController {
         }
         ResponseEntity<Void> voidResponseEntity = fileServiceClient.deleteFile(oguid);
         if (voidResponseEntity.getStatusCode() == HttpStatusCode.valueOf(204)){
-            String deletedBy = authClient.getUsername(authToken).getBody().getUsername();
+            String deletedBy = getUsernameFromToken(authToken);
             fileService.delete(oguid, deletedBy);
             return voidResponseEntity;
         }
         else return ResponseEntity.badRequest().body(
                 new ErrorDetails(Instant.now().toEpochMilli(),
                         request.getRequestURI(), "Not found",
-                        400, MDC.get("CorrId")));    }
+                        400, MDC.get("CorrId")));
+    }
 
+    private String getUsernameFromToken(String token){
+        ResponseEntity<UsernameFromToken> response = authClient.getUsername(token);
+        if (response.getStatusCode().is2xxSuccessful()){
+            return response.getBody().getUsername();
+        }
+        else throw new BadRequestExceprion();
+    }
 }

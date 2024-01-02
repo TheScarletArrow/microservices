@@ -51,7 +51,7 @@ public class AppExceptionHandler {
     @ExceptionHandler(TokenNotFoundException.class)
     ResponseEntity<Response> handleTokenNotFoundException(WebRequest request){
         return ResponseEntity.badRequest().body(
-                new Response("User not found",
+                new Response("Token not found",
                         ((ServletWebRequest) request).getRequest().getRequestURI(),
                         400,
                         LocalDateTime.now(Clock.systemUTC())));

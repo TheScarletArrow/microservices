@@ -47,4 +47,10 @@ public class FileServiceImpl implements FileService {
         fileData.setDeletedAt(Instant.now());
         fileData.setIsDeleted(true);
     }
+
+    @Override
+    @Transactional
+    public FileData getById(UUID oguid) {
+        return fileDataRepository.findByFileUUID(oguid);
+    }
 }
