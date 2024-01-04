@@ -29,6 +29,8 @@
 		<graphql-java-kickstart.version>15.0.0</graphql-java-kickstart.version>
 		<mapstruct-processor.version>1.5.5.Final</mapstruct-processor.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
+		<micrometer-tracing-bom.version>1.1.7</micrometer-tracing-bom.version>
+		<feign-micrometer.version>13.1</feign-micrometer.version>
 	</properties>
 	<dependencies>
 
@@ -182,6 +184,13 @@
 			<groupId>io.opentelemetry</groupId>
 			<artifactId>opentelemetry-exporter-otlp</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-micrometer</artifactId>
+			<version>${feign-micrometer.version}</version>
+		</dependency>
+
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -195,7 +204,7 @@
 			<dependency>
 				<groupId>io.micrometer</groupId>
 				<artifactId>micrometer-tracing-bom</artifactId>
-				<version>1.1.7</version>
+				<version>${micrometer-tracing-bom.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

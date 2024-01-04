@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.scarlet.authservice.dto.SignInRequest;
 import ru.scarlet.authservice.dto.Tokens;
 import ru.scarlet.authservice.dto.UsernameFromToken;
+import ru.scarlet.authservice.exceptions.TokenNotFoundException;
 import ru.scarlet.authservice.exceptions.UserNotFoundException;
 import ru.scarlet.authservice.service.TokenService;
 import ru.scarlet.authservice.service.UserService;
@@ -26,10 +27,12 @@ public class TokenController {
     public ResponseEntity<UsernameFromToken> getUsernameFromToken(HttpServletRequest request) {
         log.info("getUsernameFromToken");
         String token = request.getHeader("Authorization").replace("Bearer ", "");
-        log.info("token={}", token);
-        String usernameFromToken = tokenService.getUsernameFromToken(token);
-        log.info("usernameFromToken={}", usernameFromToken);
-        return ResponseEntity.ok(new UsernameFromToken(usernameFromToken));
+           log.info("token={}", token);
+           String usernameFromToken = tokenService.getUsernameFromToken(token);
+        if (tokenService.validateToken(usernameFromToken, token)){
+            log.info("usernameFromToken={}", usernameFromToken);
+           return ResponseEntity.ok(new UsernameFromToken(usernameFromToken));
+       } else throw new TokenNotFoundException();
     }
 
     @PostMapping("/generate")
