@@ -14,6 +14,7 @@ import ru.scarlet.company.repository.FileLinkRepository;
 import ru.scarlet.company.services.FileService;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -82,5 +83,10 @@ public class FileServiceImpl implements FileService {
     @Transactional
     public FileLink getLink(String link) {
         return fileLinkRepository.findByLink(link);
+    }
+
+    @Override
+    public List<FileLink> getLinks(UUID oguid) {
+        return fileLinkRepository.findByFileOguid(oguid);
     }
 }
