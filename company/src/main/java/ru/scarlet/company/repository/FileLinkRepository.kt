@@ -6,5 +6,5 @@ import ru.scarlet.company.entities.FileLink
 interface FileLinkRepository : JpaRepository<FileLink, Long> {
 
 
-    fun findByLink(link: String): FileLink
+    fun findByLink(link: String): FileLink?
 }

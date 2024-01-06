@@ -68,13 +68,23 @@ public class LinkController {
         }
         String username = getUsernameFromToken(authToken);
         FileLink fileLink = fileService.getLink(link);
-
-        ResponseEntity<Resource> file = fileServiceClient.getFile(fileLink.getFileOguid());
-        if (file.getStatusCode().is2xxSuccessful())
-            return file;
-        else return ResponseEntity.badRequest().body(
+        if (fileLink == null)
+            return ResponseEntity.badRequest().body(
+                    new ErrorDetails(Instant.now().toEpochMilli(),
+                            request.getRequestURI(), "Link does not exist ",
+                            400, MDC.get("CorrId")));
+        if (fileLink.getIsValid()) {
+            ResponseEntity<Resource> file = fileServiceClient.getFile(fileLink.getFileOguid());
+            if (file.getStatusCode().is2xxSuccessful())
+                return file;
+            else return ResponseEntity.badRequest().body(
+                    new ErrorDetails(Instant.now().toEpochMilli(),
+                            request.getRequestURI(), "Not found",
+                            400, MDC.get("CorrId")));
+        }
+        return ResponseEntity.badRequest().body(
                 new ErrorDetails(Instant.now().toEpochMilli(),
-                        request.getRequestURI(), "Not found",
+                        request.getRequestURI(), "Link is not valid ",
                         400, MDC.get("CorrId")));
     }
 }
