@@ -1,0 +1,80 @@
+package ru.scarlet.company.controllers;
+
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import ru.scarlet.company.client.AuthClient;
+import ru.scarlet.company.client.FileServiceClient;
+import ru.scarlet.company.dtos.ErrorDetails;
+import ru.scarlet.company.dtos.UsernameFromToken;
+import ru.scarlet.company.entities.FileData;
+import ru.scarlet.company.entities.FileLink;
+import ru.scarlet.company.excpetions.BadRequest.BadRequestExceprion;
+import ru.scarlet.company.excpetions.Null.HeaderNullException;
+import ru.scarlet.company.services.FileService;
+
+import java.time.Instant;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/v1/links")
+@RequiredArgsConstructor
+@Slf4j
+public class LinkController {
+    @Autowired
+    private FileServiceClient fileServiceClient;
+    @Autowired
+    private AuthClient authClient;
+
+    @Autowired
+    private FileService fileService;
+
+    @PostMapping("file/{oguid}/link")
+    public ResponseEntity<?> createLink(@PathVariable UUID oguid, HttpServletRequest request, @RequestHeader String authToken, @RequestParam(defaultValue = "86400") Long ttl){
+        if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
+            throw new HeaderNullException("Header authToken is null");
+        }
+        String username = getUsernameFromToken(authToken);
+        FileData fileFromDB = fileService.getById(oguid);
+        if (!fileFromDB.getCreatedBy().equals(username))
+            return ResponseEntity.badRequest().body(
+                    new ErrorDetails(Instant.now().toEpochMilli(),
+                            request.getRequestURI(), "FORBIDDEN",
+                            403, MDC.get("CorrId")));
+        String id = fileService.createLink(oguid);
+        FileLink fileLink = fileService.saveLink(id, ttl, oguid, username);
+
+        return ResponseEntity.ok().body("api/v1/links/"+fileLink.getLink());
+    }
+
+    private String getUsernameFromToken(String token){
+        ResponseEntity<UsernameFromToken> response = authClient.getUsername(token);
+        if (response.getStatusCode().is2xxSuccessful()){
+            return response.getBody().getUsername();
+        }
+        else throw new BadRequestExceprion();
+    }
+
+    @GetMapping("/{link}")
+    public ResponseEntity<?> getLink(@PathVariable String link, HttpServletRequest request, @RequestHeader String authToken){
+        if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
+            throw new HeaderNullException("Header authToken is null");
+        }
+        String username = getUsernameFromToken(authToken);
+        FileLink fileLink = fileService.getLink(link);
+
+        ResponseEntity<Resource> file = fileServiceClient.getFile(fileLink.getFileOguid());
+        if (file.getStatusCode().is2xxSuccessful())
+            return file;
+        else return ResponseEntity.badRequest().body(
+                new ErrorDetails(Instant.now().toEpochMilli(),
+                        request.getRequestURI(), "Not found",
+                        400, MDC.get("CorrId")));
+    }
+}

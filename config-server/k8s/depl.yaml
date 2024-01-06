@@ -16,6 +16,8 @@ spec:
         - name: config-server
           image: thescarletarrow/config-server
           imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8888
 
 
 ---
