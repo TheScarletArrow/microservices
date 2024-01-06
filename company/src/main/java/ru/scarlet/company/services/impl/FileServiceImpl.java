@@ -5,9 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.scarlet.company.constants.Constants;
 import ru.scarlet.company.dtos.StorageFile;
 import ru.scarlet.company.entities.FileData;
+import ru.scarlet.company.entities.FileLink;
 import ru.scarlet.company.repository.FileDataRepository;
+import ru.scarlet.company.repository.FileLinkRepository;
 import ru.scarlet.company.services.FileService;
 
 import java.time.Instant;
@@ -19,6 +22,9 @@ public class FileServiceImpl implements FileService {
 
     @Autowired
     FileDataRepository fileDataRepository;
+
+    @Autowired
+    FileLinkRepository fileLinkRepository;
 
 
     @Override
@@ -52,5 +58,29 @@ public class FileServiceImpl implements FileService {
     @Transactional
     public FileData getById(UUID oguid) {
         return fileDataRepository.findByFileUUID(oguid);
+    }
+
+    @Override
+    public String createLink(UUID oguid) {
+        String s = Constants.Companion.randomString();
+        return s;
+    }
+
+    @Override
+    public FileLink saveLink(String id, Long ttl, UUID oguid, String username) {
+        FileLink fileLink = new FileLink();
+        fileLink.setLink(id);
+        fileLink.setCreatedBy(username);
+        fileLink.setFileOguid(oguid);
+        fileLink.setValidTill(Instant.now().plusSeconds(ttl));
+        fileLink.setIsValid(true);
+        fileLink.setIsExpired(fileLink.getCreatedDate().plusSeconds(ttl).isBefore(Instant.now()));
+        return fileLinkRepository.save(fileLink);
+    }
+
+    @Override
+    @Transactional
+    public FileLink getLink(String link) {
+        return fileLinkRepository.findByLink(link);
     }
 }
