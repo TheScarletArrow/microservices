@@ -20,10 +20,11 @@ import ru.scarlet.company.excpetions.Null.HeaderNullException;
 import ru.scarlet.company.services.FileService;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/links")
+@RequestMapping("/api/v1/")
 @RequiredArgsConstructor
 @Slf4j
 public class LinkController {
@@ -35,7 +36,7 @@ public class LinkController {
     @Autowired
     private FileService fileService;
 
-    @PostMapping("file/{oguid}/link")
+    @PostMapping("files/{oguid}/link")
     public ResponseEntity<?> createLink(@PathVariable UUID oguid, HttpServletRequest request, @RequestHeader String authToken, @RequestParam(defaultValue = "86400") Long ttl){
         if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
             throw new HeaderNullException("Header authToken is null");
@@ -61,7 +62,7 @@ public class LinkController {
         else throw new BadRequestExceprion();
     }
 
-    @GetMapping("/{link}")
+    @GetMapping("/links/{link}")
     public ResponseEntity<?> getLink(@PathVariable String link, HttpServletRequest request, @RequestHeader String authToken){
         if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
             throw new HeaderNullException("Header authToken is null");
@@ -86,5 +87,14 @@ public class LinkController {
                 new ErrorDetails(Instant.now().toEpochMilli(),
                         request.getRequestURI(), "Link is not valid ",
                         400, MDC.get("CorrId")));
+    }
+
+    @GetMapping("/files/{oguid}/links")
+    public ResponseEntity<?> getLinks(@PathVariable UUID oguid, HttpServletRequest request, @RequestHeader String authToken) {
+        if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
+            throw new HeaderNullException("Header authToken is null");
+        }
+        List<FileLink> fileLinkList = fileService.getLinks(oguid);
+        return ResponseEntity.ok().body(fileLinkList);
     }
 }
