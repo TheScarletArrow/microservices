@@ -23,4 +23,5 @@ public interface FileService {
 
     List<FileLink> getLinks(UUID oguid);
 
+    List<FileData> getAllFiles(String username);
 }

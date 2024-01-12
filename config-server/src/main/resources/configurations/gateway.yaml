@@ -2,7 +2,7 @@ server:
   port: 8222
 eureka:
   client:
-    register-with-eureka: false
+    register-with-eureka: true
 spring:
   cloud:
     gateway:
