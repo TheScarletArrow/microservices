@@ -66,4 +66,8 @@ class UserServiceImpl(
 
         return userRepository.save(user)
     }
+
+    override fun findByOguid(userOguid: UUID): User {
+        return userRepository.findById(userOguid).orElseThrow { UserNotFoundException() }
+    }
 }

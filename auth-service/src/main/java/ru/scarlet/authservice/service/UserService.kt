@@ -10,4 +10,5 @@ interface UserService {
     fun getUserByUsername(username: String): User
     fun addRoleToUser(userId: UUID, roleId: Int): User
     fun removeRoleFromUser(userId: UUID, roleId: Int): User
+    fun findByOguid(userOguid: UUID): User
 }

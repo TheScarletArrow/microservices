@@ -31,4 +31,16 @@ class EmailSenderServiceImpl(
         javaMailSender?.send(message)
         logger.info("Sent message to {}", destination)
     }
+
+    override fun sendEmail(destination: String, code: String) {
+        logger.info("sendEmail {} {}", destination, code)
+
+        val message = SimpleMailMessage()
+        message.text = code
+        message.setTo(destination)
+        message.from = from
+        message.subject = "OTP"
+        javaMailSender?.send(message)
+        logger.info("Sent message to {}", destination)
+    }
 }
