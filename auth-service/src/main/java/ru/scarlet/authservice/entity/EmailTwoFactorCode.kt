@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor
 import lombok.RequiredArgsConstructor
 import java.time.Clock
 import java.time.Instant
+import java.util.*
 
 @Entity
 @Table(name = "email_two_factor_codes", indexes = [
-    Index(name = "idx_emailtwofactorcode_id", columnList = "id"),
-    Index(name = "idx_emailtwofactorcode_email", columnList = "email", unique = false)
+    Index(name = "idx_emailtwofactorcode_id", columnList = "id")
 ])
 @RequiredArgsConstructor
 @Builder
@@ -24,6 +24,8 @@ class EmailTwoFactorCode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int? = null
 
+    val transactionId: UUID? = UUID.randomUUID()
+
     @Column(unique = true)
     var code: String = ""
 
@@ -33,4 +35,9 @@ class EmailTwoFactorCode {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     val created: Instant = Instant.now(Clock.systemUTC())
 
+
+    var verified: Boolean = false
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+    var verifiedAt: Instant? = null
 }
