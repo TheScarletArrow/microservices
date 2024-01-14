@@ -20,6 +20,7 @@ import ru.scarlet.company.excpetions.Null.HeaderNullException;
 import ru.scarlet.company.services.FileService;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -92,6 +93,15 @@ public class FileController {
                         400, MDC.get("CorrId")));
     }
 
+
+    @GetMapping("/")
+    public ResponseEntity<List<FileData>> getAllFiles(HttpServletRequest request, @RequestHeader String authToken){
+        if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
+            throw new HeaderNullException("Header authToken is null");
+        }
+        String username = getUsernameFromToken(authToken);
+        return ResponseEntity.ok(fileService.getAllFiles(username));
+    }
     private String getUsernameFromToken(String token){
         ResponseEntity<UsernameFromToken> response = authClient.getUsername(token);
         if (response.getStatusCode().is2xxSuccessful()){

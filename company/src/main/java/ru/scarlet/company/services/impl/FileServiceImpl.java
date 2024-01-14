@@ -63,7 +63,9 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String createLink(UUID oguid) {
+        log.info("creating link {}", oguid);
         String s = Constants.Companion.randomString();
+        log.info("created link {}", s);
         return s;
     }
 
@@ -88,5 +90,10 @@ public class FileServiceImpl implements FileService {
     @Override
     public List<FileLink> getLinks(UUID oguid) {
         return fileLinkRepository.findByFileOguid(oguid);
+    }
+
+    @Override
+    public List<FileData> getAllFiles(String username) {
+        return fileDataRepository.findByCreatedBy(username);
     }
 }
