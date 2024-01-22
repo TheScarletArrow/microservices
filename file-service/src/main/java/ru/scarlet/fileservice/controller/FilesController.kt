@@ -3,7 +3,9 @@ package ru.scarlet.fileservice.controller
 import jakarta.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.Resource
-import org.springframework.http.*
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import ru.scarlet.fileservice.models.StorageFile
@@ -23,16 +25,16 @@ class FilesController(private val filesService: FilesService) {
         private val logger = LoggerFactory.getLogger(javaClass.enclosingClass)
     }
     @PostMapping("/")
-    fun addFile(@RequestParam("file") multipartFile: MultipartFile): ResponseEntity<StorageFile> {
+    fun addFile(@RequestParam("file") multipartFile: MultipartFile, @RequestParam courseId: String?): ResponseEntity<StorageFile> {
         logger.info("file service addfile")
-        val file = filesService.addFile(multipartFile)
+        val file = filesService.addFile(multipartFile, courseId)
 
         return ResponseEntity.ok(file)
     }
 
     @GetMapping("/{oguid}")
-    fun getFile(@PathVariable oguid: UUID, request: HttpServletRequest): ResponseEntity<Resource> {
-        val resource: Resource = filesService.loadFile(oguid)
+    fun getFile(@PathVariable oguid: UUID, request: HttpServletRequest, @RequestParam courseId: String?): ResponseEntity<Resource> {
+        val resource: Resource = filesService.loadFile(oguid, courseId)
 
         val contentType = try {
             request.servletContext.getMimeType(resource.file.absolutePath)
@@ -60,8 +62,8 @@ class FilesController(private val filesService: FilesService) {
     }
 
     @DeleteMapping("/{oguid}")
-    fun deleteFile(@PathVariable oguid: UUID):ResponseEntity<Void>{
-        filesService.deleteFile(oguid)
+    fun deleteFile(@PathVariable oguid: UUID, @RequestParam courseId: String?):ResponseEntity<Void>{
+        filesService.deleteFile(oguid, courseId)
         return ResponseEntity.noContent().build()
     }
 }

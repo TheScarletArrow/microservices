@@ -30,7 +30,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     @Transactional
-    public void save(StorageFile storageFile, String username) {
+    public void save(StorageFile storageFile, String username, String courseId) {
         log.info("save file");
         FileData fileData = new FileData();
         fileData.setFileName(storageFile.getName());

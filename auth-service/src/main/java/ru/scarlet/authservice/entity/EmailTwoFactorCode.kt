@@ -26,10 +26,10 @@ class EmailTwoFactorCode {
 
     val transactionId: UUID? = UUID.randomUUID()
 
-    @Column(unique = true)
+    @Column(unique = false)
     var code: String = ""
 
-    @Column(unique = true)
+    @Column(unique = false)
     var email: String = ""
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
