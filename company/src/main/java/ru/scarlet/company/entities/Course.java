@@ -1,11 +1,12 @@
 package ru.scarlet.company.entities;
 
 import jakarta.persistence.*;
-
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import ru.scarlet.company.enums.CourseActive;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "course", indexes = {
@@ -32,4 +33,8 @@ public class Course {
 
 	@Enumerated(EnumType.ORDINAL)
 	CourseActive courseActive = CourseActive.ACTIVE;
+
+	@OneToMany
+	List<FileData> files = new ArrayList<>();
+
 }

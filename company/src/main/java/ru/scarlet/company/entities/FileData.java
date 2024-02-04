@@ -39,4 +39,6 @@ public class FileData {
     private Instant deletedAt;
 
     private String deletedBy;
+
+    private Integer courseId;
 }

@@ -7,8 +7,8 @@ import java.util.*
 interface FileDataRepository : JpaRepository<FileData, Long> {
 
 
-    fun findByFileUUID(fileUUID: UUID): FileData
+    fun findByFileUUID(fileUUID: UUID): FileData?
 
 
-    fun findByCreatedBy(createdBy: String): List<FileData>
+    fun findByCreatedBy(createdBy: String): List<FileData>?
 }
