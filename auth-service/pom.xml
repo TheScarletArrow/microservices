@@ -22,6 +22,8 @@
 		<springdoc.version>2.2.0</springdoc.version>
 		<spring-security-crypto.version>6.1.2</spring-security-crypto.version>
 		<java-jwt.version>4.4.0</java-jwt.version>
+		<spring-boot-starter-amqp.version>3.0.8</spring-boot-starter-amqp.version>
+		<amqp-client.version>5.18.0</amqp-client.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -122,6 +124,23 @@
 		<dependency>
 			<groupId>io.opentelemetry</groupId>
 			<artifactId>opentelemetry-exporter-otlp</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+			<version>${amqp-client.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.amqp/spring-amqp -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+			<version>${spring-boot-starter-amqp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

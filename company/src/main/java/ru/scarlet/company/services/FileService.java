@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface FileService {
 
-    void save(StorageFile fileData, String username);
+    void save(StorageFile fileData, String username, String courseId);
 
     void delete(UUID oguid, String deletedBy);
 
@@ -23,4 +23,5 @@ public interface FileService {
 
     List<FileLink> getLinks(UUID oguid);
 
+    List<FileData> getAllFiles(String username);
 }

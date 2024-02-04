@@ -30,4 +30,6 @@ public interface CourseService {
 	void setIsActive(Integer courseId, CourseActive active);
 
 	void deactivateCourse(Integer courseId);
+
+    void removeProfessorFromCourse(Integer courseId, Integer professorId);
 }

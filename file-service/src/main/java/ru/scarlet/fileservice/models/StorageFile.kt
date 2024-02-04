@@ -18,6 +18,7 @@ class StorageFile {
      var size = 0L
      var mimeType: String? = null
      var diskArray: String? = null
+     var courseId: String = ""
     val actualFilePath: Path
         get() = Paths.get(actualDirectoryPath.toString(), name)
     val actualDirectoryPath: Path

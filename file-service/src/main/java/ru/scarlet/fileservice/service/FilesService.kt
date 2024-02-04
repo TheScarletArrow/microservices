@@ -7,7 +7,7 @@ import java.util.*
 
 interface FilesService {
 
-    fun addFile(multipartFile: MultipartFile): StorageFile
-    fun loadFile(oguid: UUID): Resource
-    fun deleteFile(oguid: UUID)
+    fun addFile(multipartFile: MultipartFile, courseId: String?): StorageFile
+    fun loadFile(oguid: UUID, courseId: String?): Resource
+    fun deleteFile(oguid: UUID, courseId: String?)
 }

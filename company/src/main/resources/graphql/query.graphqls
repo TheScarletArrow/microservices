@@ -27,4 +27,5 @@ type Query{
 type Mutation {
     updateProfessorContactInfo(id: ID!, email: String, phone: String) : Professor
     addProfessorToCourse(professorId: Int, courseId: Int): Course
+    removeProfessorFromCourse(professorId: Int, courseId: Int): Course
 }

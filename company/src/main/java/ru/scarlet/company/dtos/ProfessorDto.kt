@@ -22,8 +22,14 @@ data class ProfessorContactDetails(
 
     var email: String,
 
-    var course: CourseShort
+    var course: CourseShort,
+
+    var topic: MailTopic
 )
+
+enum class MailTopic{
+    ADDED,REMOVED
+}
 
 data class ProfessorDtoResponse(
     var name: String,

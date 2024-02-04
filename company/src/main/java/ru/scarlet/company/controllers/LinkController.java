@@ -63,7 +63,7 @@ public class LinkController {
     }
 
     @GetMapping("/links/{link}")
-    public ResponseEntity<?> getLink(@PathVariable String link, HttpServletRequest request, @RequestHeader String authToken){
+    public ResponseEntity<?> getLink(@PathVariable String link, HttpServletRequest request, @RequestHeader String authToken, @RequestParam String courseId){
         if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
             throw new HeaderNullException("Header authToken is null");
         }
@@ -75,7 +75,7 @@ public class LinkController {
                             request.getRequestURI(), "Link does not exist ",
                             400, MDC.get("CorrId")));
         if (fileLink.getIsValid()) {
-            ResponseEntity<Resource> file = fileServiceClient.getFile(fileLink.getFileOguid());
+            ResponseEntity<Resource> file = fileServiceClient.getFile(fileLink.getFileOguid(), courseId);
             if (file.getStatusCode().is2xxSuccessful())
                 return file;
             else return ResponseEntity.badRequest().body(
