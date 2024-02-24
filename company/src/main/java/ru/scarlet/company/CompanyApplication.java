@@ -10,9 +10,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @OpenAPIDefinition(
 		info = @Info(
-				title = "Auth Service",
+				title = "Company Service",
 				version = "1.0.0",
-				description = "Auth microservice for project",
+				description = "Company microservice for project",
 				contact = @Contact(
 						name = "Anton Yurkov",
 						email = "anton..."

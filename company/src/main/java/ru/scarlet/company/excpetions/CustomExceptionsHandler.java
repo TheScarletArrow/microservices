@@ -1,5 +1,6 @@
 package ru.scarlet.company.excpetions;
 
+import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
@@ -52,5 +53,10 @@ public class CustomExceptionsHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(BadRequestExceprion.class)
 	public ResponseEntity<ErrorDetails> handleBadRequestExceprion(HttpServletRequest request, BadRequestExceprion ex){
 		return new ResponseEntity<>(new ErrorDetails(Instant.now().toEpochMilli(), request.getRequestURI(), ex.getMessage(), 400, MDC.get("CorrId")), HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(FeignException.class)
+	public ResponseEntity<ErrorDetails> handleFeignException(HttpServletRequest request, FeignException ex){
+		return new ResponseEntity<>(new ErrorDetails(Instant.now().toEpochMilli(), request.getRequestURI(), ex.getLocalizedMessage(), 400, MDC.get("CorrId")), HttpStatus.BAD_REQUEST);
 	}
 }
