@@ -101,7 +101,7 @@ public class CourseServiceImpl implements CourseService {
 		course.getTaughtByProfessors().add(professor);
 		professor.getTeachingCourses().add(course);
 
-		ProfessorContactDetails contactDetails = new ProfessorContactDetails(professor.getPhone(), professor.getEnableNotifyByPhone(), professor.getEnableNotifyByMail(), professor.getEmail(), new CourseShort(course.getCourseName(), course.getCourseCode()));
+		ProfessorContactDetails contactDetails = new ProfessorContactDetails(professor.getPhone(), professor.getEnableNotifyByPhone(), professor.getEnableNotifyByMail(), professor.getEmail(), new CourseShort(course.getCourseName(), course.getCourseCode()), MailTopic.ADDED);
 
 		rabbitTemplate.convertAndSend(NEW_MAIL_ROUTING_KEY, (contactDetails));
 	}
@@ -139,5 +139,17 @@ public class CourseServiceImpl implements CourseService {
 		var courseByIdE = getCourseByIdE(courseId);
 		courseByIdE.setCourseActive(CourseActive.DEACTIVATED);
 
+	}
+
+	@Override
+	public void removeProfessorFromCourse(Integer courseId, Integer professorId) {
+		Professor professor = professorRepository.findById(professorId).orElseThrow(() -> new ProfessorNotFoundException("Professor " + professorId + " not found"));
+		Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException("Course " + courseId + " not found"));
+		course.getTaughtByProfessors().remove(professor);
+		professor.getTeachingCourses().remove(course);
+
+		ProfessorContactDetails contactDetails = new ProfessorContactDetails(professor.getPhone(), professor.getEnableNotifyByPhone(), professor.getEnableNotifyByMail(), professor.getEmail(), new CourseShort(course.getCourseName(), course.getCourseCode()), MailTopic.REMOVED);
+
+		rabbitTemplate.convertAndSend(NEW_MAIL_ROUTING_KEY, (contactDetails));
 	}
 }

@@ -25,7 +25,7 @@ class Listener(
 //        logger.info("Consuming Message - {}", message.body.toString(Charset.defaultCharset()))
 //        val professorContactDetails = jacksonObjectMapper().readValue(message.body, ProfessorContactDetails::class.java)
         if (message.enableNotifyByMail){
-            emailSenderService.sendEmail(message.email)
+            emailSenderService.sendEmail(message.email, message.topic, message.course)
         }
     }
 

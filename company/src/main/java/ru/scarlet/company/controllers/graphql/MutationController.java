@@ -27,4 +27,12 @@ public class MutationController {
 
         return courseService.getCourseByIdE(courseId);
     }
+
+    @MutationMapping
+    public Course removeProfessorFromCourse(@Argument Integer professorId, @Argument Integer courseId){
+        courseService.removeProfessorFromCourse(courseId, professorId);
+
+        return courseService.getCourseByIdE(courseId);
+
+    }
 }
