@@ -8,6 +8,10 @@ eureka:
 server:
   port: 8070
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   info:
     git:
       mode: full

@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/university/courses")
+
 public class CourseController {
 	private final CourseService courseService;
 

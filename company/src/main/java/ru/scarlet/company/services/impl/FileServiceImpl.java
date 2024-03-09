@@ -42,6 +42,7 @@ public class FileServiceImpl implements FileService {
         fileData.setDiskArray(storageFile.getDiskArray());
         fileData.setIsDeleted(false);
         fileData.setCreatedBy(username);
+        fileData.setCourseId(Integer.valueOf(courseId));
         fileDataRepository.save(fileData);
     }
 

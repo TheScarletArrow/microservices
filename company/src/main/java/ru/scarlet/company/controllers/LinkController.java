@@ -17,6 +17,7 @@ import ru.scarlet.company.entities.FileData;
 import ru.scarlet.company.entities.FileLink;
 import ru.scarlet.company.excpetions.BadRequest.BadRequestExceprion;
 import ru.scarlet.company.excpetions.Null.HeaderNullException;
+import ru.scarlet.company.repository.FileDataRepository;
 import ru.scarlet.company.services.FileService;
 
 import java.time.Instant;
@@ -28,6 +29,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class LinkController {
+    @Autowired
+    private FileDataRepository fileDataRepository;
     @Autowired
     private FileServiceClient fileServiceClient;
     @Autowired
@@ -63,7 +66,7 @@ public class LinkController {
     }
 
     @GetMapping("/links/{link}")
-    public ResponseEntity<?> getLink(@PathVariable String link, HttpServletRequest request, @RequestHeader String authToken, @RequestParam String courseId){
+    public ResponseEntity<?> getLink(@PathVariable String link, HttpServletRequest request, @RequestHeader String authToken){
         if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
             throw new HeaderNullException("Header authToken is null");
         }
@@ -75,7 +78,8 @@ public class LinkController {
                             request.getRequestURI(), "Link does not exist ",
                             400, MDC.get("CorrId")));
         if (fileLink.getIsValid()) {
-            ResponseEntity<Resource> file = fileServiceClient.getFile(fileLink.getFileOguid(), courseId);
+            FileData byFileUUID = fileDataRepository.findByFileUUID(fileLink.getFileOguid());
+            ResponseEntity<Resource> file = fileServiceClient.getFile(fileLink.getFileOguid(), byFileUUID.getCourseId().toString());
             if (file.getStatusCode().is2xxSuccessful())
                 return file;
             else return ResponseEntity.badRequest().body(
