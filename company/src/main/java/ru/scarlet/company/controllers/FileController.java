@@ -1,8 +1,14 @@
 package ru.scarlet.company.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -26,6 +32,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/files")
 @RequiredArgsConstructor
+@Tag(name = "files", description = "Работа с файлами")
 @Slf4j
 public class FileController {
     @Autowired
@@ -36,16 +43,21 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
+    @Operation(description = "Создание файла", summary = "Создание файла")
     @PostMapping("/")
-    ResponseEntity<?> addFile(@RequestParam("file") MultipartFile multipartFile, @RequestHeader String authToken, HttpServletRequest request, @RequestParam String courseId){
-        if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
+    ResponseEntity<?> addFile(@Parameter(required = true, description = "File to upload", in = ParameterIn.QUERY) @RequestParam(value = "file", required = false) MultipartFile multipartFile,
+                               @Parameter(required = true, description = "JWT Token", in = ParameterIn.HEADER) @RequestHeader String authToken, HttpServletRequest request, @Parameter(required = true, description = "Course Id", in = ParameterIn.QUERY) @RequestParam String courseId){
+        if (StringUtils.isEmpty(authToken)){
             throw new HeaderNullException("Header authToken is null");
         }
         log.info("addFile ");
 
+        if (multipartFile == null || multipartFile.isEmpty()){
+            throw new BadRequestExceprion("file is not attached");
+        }
         log.info("file addded");
         ResponseEntity<UsernameFromToken> username = authClient.getUsername(authToken);
-        if (username.getStatusCode().is2xxSuccessful()) {
+        if (username.getStatusCode().is2xxSuccessful() && username.getBody() != null) {
             var file = fileServiceClient.addFile(multipartFile, courseId);
             fileService.save(file.getBody(), username.getBody().getUsername(), courseId);
             return file;
@@ -56,8 +68,9 @@ public class FileController {
     }
 
     @GetMapping("/{oguid}")
+    @Operation(description = "Получение файла по его id", summary = "Получение файла по oguid", security = @SecurityRequirement(name="authToken"))
     ResponseEntity<?> getFile(@PathVariable UUID oguid, HttpServletRequest request, @RequestHeader String authToken, @RequestParam String courseId){
-        if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
+        if (StringUtils.isEmpty(authToken)){
             throw new HeaderNullException("Header authToken is null");
         }
         String username = getUsernameFromToken(authToken);
@@ -82,8 +95,9 @@ public class FileController {
     }
 
     @DeleteMapping("/{oguid}")
+    @Operation(description = "Удаление файла по его id", summary = "Удаление файла по oguid", security = @SecurityRequirement(name="authToken"))
     ResponseEntity<?> deleteFile(@PathVariable UUID oguid, HttpServletRequest request, @RequestHeader String authToken, @RequestParam String courseId){
-        if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
+        if (StringUtils.isEmpty(authToken)){
             throw new HeaderNullException("Header authToken is null");
         }
         ResponseEntity<Void> voidResponseEntity = fileServiceClient.deleteFile(oguid, courseId);
@@ -101,7 +115,7 @@ public class FileController {
 
     @GetMapping("/")
     public ResponseEntity<List<FileData>> getAllFiles(HttpServletRequest request, @RequestHeader String authToken, @RequestParam String courseId){
-        if (authToken == null || authToken.isBlank() || authToken.isEmpty()){
+        if (StringUtils.isEmpty(authToken)){
             throw new HeaderNullException("Header authToken is null");
         }
         String username = getUsernameFromToken(authToken);

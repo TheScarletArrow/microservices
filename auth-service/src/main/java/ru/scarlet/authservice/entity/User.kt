@@ -1,5 +1,6 @@
 package ru.scarlet.authservice.entity
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.persistence.*
 import lombok.*
 import org.hibernate.annotations.JdbcTypeCode
@@ -29,6 +30,7 @@ class User() {
     var username: String? = null
     var password: String? = null
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     val created: LocalDateTime = LocalDateTime.now()
 
     var name: String = ""
