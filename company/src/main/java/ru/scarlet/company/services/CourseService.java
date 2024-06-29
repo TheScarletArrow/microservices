@@ -32,4 +32,9 @@ public interface CourseService {
 	void deactivateCourse(Integer courseId);
 
     void removeProfessorFromCourse(Integer courseId, Integer professorId);
+
+	List<CourseResponse> list(String username);
+
+
+
 }

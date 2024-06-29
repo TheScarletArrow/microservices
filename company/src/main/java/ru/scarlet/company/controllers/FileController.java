@@ -121,6 +121,7 @@ public class FileController {
         String username = getUsernameFromToken(authToken);
         return ResponseEntity.ok(fileService.getAllFiles(username));
     }
+
     private String getUsernameFromToken(String token){
         ResponseEntity<UsernameFromToken> response = authClient.getUsername(token);
         if (response.getStatusCode().is2xxSuccessful()){

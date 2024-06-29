@@ -14,7 +14,7 @@ import java.net.URI;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/university/deans")
-public class DeanController {
+public class DeanController extends BasicController {
 
 	private final DeanService deanService;
 

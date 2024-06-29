@@ -1,8 +1,6 @@
 package ru.scarlet.company.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.net.URI;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +9,13 @@ import ru.scarlet.company.dtos.ProfessorDtoResponse;
 import ru.scarlet.company.entities.Professor;
 import ru.scarlet.company.services.ProfessorService;
 
+import java.net.URI;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/university/professors")
 @RequiredArgsConstructor
-public class ProfessorController {
+public class ProfessorController extends BasicController {
 
 	private final ProfessorService professorService;
 

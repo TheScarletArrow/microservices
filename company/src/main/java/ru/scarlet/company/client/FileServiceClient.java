@@ -11,7 +11,7 @@ import ru.scarlet.company.dtos.StorageFile;
 
 import java.util.UUID;
 
-@FeignClient(name = "file-service", url = "localhost:8082/api/v1/files", dismiss404 = true)
+@FeignClient(name = "file-service", url = "localhost:8082/api/v1/file", dismiss404 = true)
 public interface FileServiceClient {
     @PostMapping(value = "/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<StorageFile> addFile(@Param("file") MultipartFile multipartFile, @RequestParam String courseId);

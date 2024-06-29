@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.scarlet.company.client.AuthClient;
 import ru.scarlet.company.client.FileServiceClient;
 import ru.scarlet.company.dtos.ErrorDetails;
-import ru.scarlet.company.dtos.UsernameFromToken;
 import ru.scarlet.company.entities.FileData;
 import ru.scarlet.company.entities.FileLink;
-import ru.scarlet.company.excpetions.BadRequest.BadRequestExceprion;
 import ru.scarlet.company.excpetions.Null.HeaderNullException;
 import ru.scarlet.company.repository.FileDataRepository;
 import ru.scarlet.company.services.FileService;
@@ -28,7 +26,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/")
 @RequiredArgsConstructor
 @Slf4j
-public class LinkController {
+public class LinkController extends BasicController {
     @Autowired
     private FileDataRepository fileDataRepository;
     @Autowired
@@ -55,14 +53,6 @@ public class LinkController {
         FileLink fileLink = fileService.saveLink(id, ttl, oguid, username);
 
         return ResponseEntity.ok().body("api/v1/links/"+fileLink.getLink());
-    }
-
-    private String getUsernameFromToken(String token){
-        ResponseEntity<UsernameFromToken> response = authClient.getUsername(token);
-        if (response.getStatusCode().is2xxSuccessful()){
-            return response.getBody().getUsername();
-        }
-        else throw new BadRequestExceprion();
     }
 
     @GetMapping("/links/{link}")

@@ -1,7 +1,6 @@
 package ru.scarlet.company.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,10 +11,12 @@ import ru.scarlet.company.dtos.ExpertiseDto;
 import ru.scarlet.company.entities.Expertise;
 import ru.scarlet.company.services.ExpertiseService;
 
+import java.net.URI;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/university/expertise")
-public class ExpertiseController {
+public class ExpertiseController extends BasicController {
 
 	private final ExpertiseService expertiseService;
 

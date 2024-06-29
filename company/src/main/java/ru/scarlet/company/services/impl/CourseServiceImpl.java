@@ -152,4 +152,10 @@ public class CourseServiceImpl implements CourseService {
 
 		rabbitTemplate.convertAndSend(NEW_MAIL_ROUTING_KEY, (contactDetails));
 	}
+
+	@Override
+	public List<CourseResponse> list(String username) {
+		List<Course> byAttendantsUsername = courseRepository.findByAttendants_Username(username);
+		return byAttendantsUsername.stream().map(courseMapper::toDto).toList();
+	}
 }

@@ -16,7 +16,7 @@ import java.util.*
 import kotlin.text.Charsets.UTF_8
 
 @RestController
-@RequestMapping("/api/v1/files")
+@RequestMapping("/api/v1/file")
 class FilesController(private val filesService: FilesService) {
 
     companion object{

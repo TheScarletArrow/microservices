@@ -9,20 +9,24 @@ import ru.scarlet.company.dtos.CourseRequest;
 import ru.scarlet.company.dtos.CourseResponse;
 import ru.scarlet.company.enums.CourseActive;
 import ru.scarlet.company.services.CourseService;
+import ru.scarlet.company.services.StudentService;
 
 import java.net.URI;
 import java.util.List;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 @RestController
 @RequestMapping("/api/v1/university/courses")
-
-public class CourseController {
+public class CourseController extends BasicController{
 	private final CourseService courseService;
+	private final StudentService studentService;
 
 	@Autowired // Add this annotation
-	public CourseController(CourseService courseService) {
+	public CourseController(CourseService courseService, StudentService studentService) {
 		this.courseService = courseService;
-	}
+        this.studentService = studentService;
+    }
 
 	@GetMapping("/department/{departmentId}")
 	private ResponseEntity<?> getCoursesForDepartment(@PathVariable String departmentId,
@@ -72,4 +76,32 @@ public class CourseController {
 		courseService.deactivateCourse(courseId);
 		return ResponseEntity.noContent().build();
 	}
+
+	@GetMapping("/list")
+	public ResponseEntity<List<CourseResponse>> getCourses(@RequestHeader(name = AUTHORIZATION) String authToken) {
+		String username = getUsernameFromToken(authToken);
+
+		List<CourseResponse> response = courseService.list(username);
+		return ResponseEntity.ok(response);
+	}
+
+	@PostMapping("/{courseId}/enroll")
+	public ResponseEntity<Void> enroll(@RequestHeader(name = AUTHORIZATION) String authToken, @PathVariable String courseId){
+		String username = getUsernameFromToken(authToken);
+
+		studentService.enrollToCourse(username, courseId);
+
+		return ResponseEntity.noContent().build();
+	}
+
+	@PostMapping("/{courseId}/leave")
+	public ResponseEntity<Void> leave(@RequestHeader(name = AUTHORIZATION) String authToken, @PathVariable String courseId){
+		String username = getUsernameFromToken(authToken);
+
+		studentService.leaveCourse(username, courseId);
+
+		return ResponseEntity.noContent().build();
+	}
+
+
 }

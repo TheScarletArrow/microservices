@@ -37,4 +37,6 @@ public class Course {
 	@OneToMany
 	List<FileData> files = new ArrayList<>();
 
+	@ManyToMany
+	List<Student> attendants = new ArrayList<>();
 }
