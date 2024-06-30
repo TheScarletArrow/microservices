@@ -21,9 +21,10 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentRepository.findByUsername(username);
         Course course = courseService.getCourseByIdE(courseId);
         if (course.getAttendants().contains(student) || student.getCourseList().contains(course))
-            throw new RuntimeException();
+            throw new RuntimeException(); //todo switch exception to the proper one
         else {
             student.getCourseList().add(course);
+            course.getAttendants().add(student);
         }
     }
 
