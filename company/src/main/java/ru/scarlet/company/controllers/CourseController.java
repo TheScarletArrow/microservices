@@ -86,7 +86,7 @@ public class CourseController extends BasicController{
 	}
 
 	@PostMapping("/{courseId}/enroll")
-	public ResponseEntity<Void> enroll(@RequestHeader(name = AUTHORIZATION) String authToken, @PathVariable String courseId){
+	public ResponseEntity<Void> enroll(@RequestHeader(name = AUTHORIZATION) String authToken, @PathVariable Integer courseId){
 		String username = getUsernameFromToken(authToken);
 
 		studentService.enrollToCourse(username, courseId);
@@ -95,7 +95,7 @@ public class CourseController extends BasicController{
 	}
 
 	@PostMapping("/{courseId}/leave")
-	public ResponseEntity<Void> leave(@RequestHeader(name = AUTHORIZATION) String authToken, @PathVariable String courseId){
+	public ResponseEntity<Void> leave(@RequestHeader(name = AUTHORIZATION) String authToken, @PathVariable Integer courseId){
 		String username = getUsernameFromToken(authToken);
 
 		studentService.leaveCourse(username, courseId);

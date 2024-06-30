@@ -1,10 +1,14 @@
 package ru.scarlet.company.entities
 
 import jakarta.persistence.*
+import lombok.Getter
+import lombok.Setter
 import java.util.*
 
 @Entity
 @Table(name = "student")
+@Getter
+@Setter
 open class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,5 +29,5 @@ open class Student {
 //        joinColumns = [JoinColumn(name = "student_id")],
 //        inverseJoinColumns = [JoinColumn(name = "course_id")]
 //    )
-    var courseList: MutableList<Course> = Collections.emptyList()
+    var courseList: MutableList<Course> = ArrayList()
 }
