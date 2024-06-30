@@ -20,7 +20,11 @@ public class StudentServiceImpl implements StudentService {
     public void enrollToCourse(String username, Integer courseId) {
         Student student = studentRepository.findByUsername(username);
         Course course = courseService.getCourseByIdE(courseId);
-        student.getCourseList().add(course);
+        if (course.getAttendants().contains(student) || student.getCourseList().contains(course))
+            throw new RuntimeException();
+        else {
+            student.getCourseList().add(course);
+        }
     }
 
     @Override
