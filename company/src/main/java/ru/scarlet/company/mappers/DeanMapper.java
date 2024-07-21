@@ -3,6 +3,7 @@ package ru.scarlet.company.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import ru.scarlet.company.dtos.DeanGetResponse;
+import ru.scarlet.company.dtos.DeanRequest;
 import ru.scarlet.company.dtos.DeanResponse;
 import ru.scarlet.company.entities.Dean;
 
@@ -12,4 +13,6 @@ public interface DeanMapper {
 	DeanResponse toResponse(Dean dean);
 
 	DeanGetResponse toGetResponse(Dean dean);
+
+	Dean toEntity(DeanRequest deanRequest);
 }

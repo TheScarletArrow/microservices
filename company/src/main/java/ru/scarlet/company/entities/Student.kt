@@ -23,7 +23,7 @@ open class Student {
 
     open var username : String? = null
 
-    @ManyToMany
+    @ManyToMany(cascade = [CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH])
 //    @JoinTable(
 //        name = "attendants_courses",
 //        joinColumns = [JoinColumn(name = "student_id")],

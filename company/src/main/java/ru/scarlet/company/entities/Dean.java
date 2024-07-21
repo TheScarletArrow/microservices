@@ -27,7 +27,7 @@ public class Dean {
 
 	private String patronymic;
 
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
 			name = "dean_courses",
 			joinColumns = @JoinColumn(name = "dean_id"),

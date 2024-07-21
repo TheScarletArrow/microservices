@@ -3,6 +3,7 @@ package ru.scarlet.company.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import ru.scarlet.company.enums.CourseActive;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 })
 @Getter
 @Setter
+@Accessors(chain = true)
 //предмет
 public class Course {
 
@@ -24,19 +26,19 @@ public class Course {
 	private String courseCode;
 	String courseName;
 
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
 	@JoinColumn(name = "department_oid")
 	Department department;
 
-	@ManyToMany(mappedBy = "teachingCourses")
+	@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "teachingCourses")
 	List<Professor> taughtByProfessors;
 
 	@Enumerated(EnumType.ORDINAL)
 	CourseActive courseActive = CourseActive.ACTIVE;
 
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
 	List<FileData> files = new ArrayList<>();
 
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	List<Student> attendants = new ArrayList<>();
 }

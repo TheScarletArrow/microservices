@@ -38,7 +38,7 @@ class User() {
     var lastName: String = ""
     var patronymic: String? = null
 
-    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @ManyToMany(cascade = [CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE, CascadeType.PERSIST], fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles",
         joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],

@@ -31,16 +31,20 @@ class GenericFilter : Filter {
         val httpServletRequest = servletRequest as HttpServletRequest
         if (!httpServletRequest.servletPath.contains("prometheus")) {
 
-        val randomString = (1..STRING_LENGTH)
-            .map { _ -> Random.nextInt(0, charPool.size) }
-            .map(charPool::get)
-            .joinToString("")
+            val randomString = (1..STRING_LENGTH)
+                .map { _ -> Random.nextInt(0, charPool.size) }
+                .map(charPool::get)
+                .joinToString("")
 
-        MDC.put("CorrId", randomString)
-        val event = AuditEvent( httpServletRequest.servletPath, randomString, (servletResponse as HttpServletResponse).status )
-        filterChain.doFilter(servletRequest, servletResponse)
-        rabbitTemplate.convertAndSend(NEW_AUDIT_ROUTING_KEY, event)}
-        else {
+            MDC.put("CorrId", randomString)
+            val event = AuditEvent(
+                httpServletRequest.servletPath,
+                randomString,
+                (servletResponse as HttpServletResponse).status
+            )
+            filterChain.doFilter(servletRequest, servletResponse)
+            rabbitTemplate.convertAndSend(NEW_AUDIT_ROUTING_KEY, event)
+        } else {
             filterChain.doFilter(servletRequest, servletResponse)
 
         }

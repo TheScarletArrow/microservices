@@ -1,6 +1,7 @@
 package ru.scarlet.company.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class ProfessorController extends BasicController {
 	private final ProfessorService professorService;
 
 	@PostMapping("/")
-	public ResponseEntity<Professor> addProfessor(@RequestBody ProfessorDtoRequest dto, HttpServletRequest request){
+	public ResponseEntity<Professor> addProfessor(@RequestBody @Valid ProfessorDtoRequest dto, HttpServletRequest request){
 		Professor professor = professorService.add(dto);
 		return ResponseEntity.created(URI.create(request.getRequestURI())).body(professor);
 	}

@@ -1,15 +1,19 @@
 package ru.scarlet.company.dtos
 
+import jakarta.validation.constraints.NotNull
+
 
 data class ProfessorDtoRequest(
+    @NotNull
     var name: String,
 
-
+    @NotNull
     val phone: String,
 
-
+    @NotNull
     val email: String,
 
+    @NotNull
     val expertiseId: Long
 )
 
@@ -40,5 +44,5 @@ data class ProfessorDtoResponse(
 
     val email: String,
 
-    val expertise: ExpertiseDto
+    val expertiseId: Long
 )

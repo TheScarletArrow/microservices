@@ -1,12 +1,12 @@
 package ru.scarlet.company.entities;
 
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,7 +31,7 @@ public class Department {
 	@JoinColumn(name = "faculty_id")
 	private Faculty faculty;
 
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(
 			name = "department_course",
 			joinColumns = @JoinColumn(name = "department_id"),

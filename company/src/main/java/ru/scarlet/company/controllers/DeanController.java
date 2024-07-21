@@ -2,6 +2,7 @@ package ru.scarlet.company.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.scarlet.company.dtos.DeanGetResponse;
@@ -30,7 +31,13 @@ public class DeanController extends BasicController {
 //	}
 
 	@GetMapping("/{id}")
+	@Cacheable(value = "deanDto", key = "#id")
 	public ResponseEntity<DeanGetResponse> getDeanById(@PathVariable Integer id){
 		return ResponseEntity.ok(deanService.getDeanDtoById(id));
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateDean(@PathVariable Integer id, @RequestBody DeanRequest deanRequest){
+		return ResponseEntity.ok(deanService.modifyDean(id, deanRequest));
 	}
 }

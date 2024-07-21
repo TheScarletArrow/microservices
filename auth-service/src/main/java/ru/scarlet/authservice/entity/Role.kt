@@ -35,7 +35,7 @@ class Role() {
     fun toMap() : HashMap<String, Any> {
         return hashMapOf("name" to this.roleName,  "isActive" to isActive, "created" to created.toString())
     }
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(cascade = [CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH], mappedBy = "roles")
     @JsonIgnore
     val users: MutableList<User> = mutableListOf()
 }

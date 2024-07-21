@@ -1,7 +1,10 @@
 package ru.scarlet.company.services.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.scarlet.company.dtos.DeanGetResponse;
 import ru.scarlet.company.dtos.DeanRequest;
 import ru.scarlet.company.dtos.FacultyDeanGetResponse;
@@ -25,6 +28,7 @@ public class DeanServiceImpl implements DeanService {
 	private final FacultyRepository facultyRepository;
 
 	@Override
+	@Cacheable(cacheNames = "dean", key = "#result.oid")
 	public Dean createDean(DeanRequest deanRequest) {
 		Dean dean = new Dean();
 		dean.setFirstName(deanRequest.getFirstName());
@@ -48,8 +52,8 @@ public class DeanServiceImpl implements DeanService {
 	}
 
 	@Override
+	@Cacheable(value = "deans")
 	public List<Dean> getAllEntity() {
-
 		return deanRepository.findAll();
 	}
 
@@ -59,8 +63,19 @@ public class DeanServiceImpl implements DeanService {
 	}
 
 	@Override
+	@Cacheable(value = "deanDto", key = "#id")
 	public DeanGetResponse getDeanDtoById(Integer id) {
-		DeanGetResponse getResponse = deanMapper.toGetResponse(getDeanById(id));
-		return getResponse;
+        return deanMapper.toGetResponse(getDeanById(id));
+	}
+
+	@Override
+	@Transactional
+	@CachePut(cacheNames = "deanDto", key = "#id", unless = "#id==null")
+	public DeanGetResponse modifyDean(Integer id, DeanRequest deanRequest) {
+		Dean fromDb = getDeanById(id);
+		fromDb.setFirstName(deanRequest.getFirstName());
+		fromDb.setPatronymic(deanRequest.getPatronymic());
+		fromDb.setLastName(deanRequest.getLastName());
+		return deanMapper.toGetResponse(deanRepository.save(fromDb));
 	}
 }
